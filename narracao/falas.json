@@ -1,0 +1,32 @@
+[
+  {"id": "00-abertura", "start": 0.6, "max": 6.2, "text": "Cavar debaixo da terra abre um buraco: um túnel. Parece fácil… mas a terra lá em cima é pesada!"},
+
+  {"id": "01a", "start": 7.4, "max": 5.6, "text": "Primeira tentativa: só cavar com a pá."},
+  {"id": "01b", "start": 13.3, "max": 2.4, "text": "Mas a terra pesa toneladas…"},
+  {"id": "01c", "start": 17.5, "max": 3.8, "text": "Sem apoio, o teto desaba!"},
+
+  {"id": "02a", "start": 21.9, "max": 5.6, "text": "Segunda tentativa: escorar com vigas de madeira."},
+  {"id": "02b", "start": 27.8, "max": 2.4, "text": "O peso esmaga as escoras…"},
+  {"id": "02c", "start": 32.0, "max": 3.8, "text": "Madeira fina não aguenta!"},
+
+  {"id": "03a", "start": 36.4, "max": 5.6, "text": "Terceira: paredes e teto de concreto, bem retos."},
+  {"id": "03b", "start": 42.3, "max": 2.4, "text": "No teto reto, o peso vai pro meio…"},
+  {"id": "03c", "start": 46.5, "max": 3.8, "text": "Rachou! Forma redonda aguenta mais."},
+
+  {"id": "04a", "start": 50.9, "max": 5.6, "text": "Quarta: um arco redondo de tijolos. A forma está certa!"},
+  {"id": "04b", "start": 56.8, "max": 2.4, "text": "Mas a água do subsolo infiltra…"},
+  {"id": "04c", "start": 61.0, "max": 3.8, "text": "E a água derruba o arco."},
+
+  {"id": "05a", "start": 65.4, "max": 5.6, "text": "Quinta: uma tuneladora! Mas os anéis ficaram lá atrás."},
+  {"id": "05b", "start": 71.3, "max": 2.4, "text": "O trecho sem anéis não tem apoio…"},
+  {"id": "05c", "start": 75.5, "max": 3.8, "text": "Quase! Desabou de novo."},
+
+  {"id": "06a", "start": 79.8, "max": 6.2, "text": "Sexta tentativa. Agora ele sabe o que fazer."},
+  {"id": "06b", "start": 86.6, "max": 7.8, "text": "O escudo de aço segura a terra enquanto a cabeça de corte escava, e a esteira leva o material para fora."},
+  {"id": "06c", "start": 94.8, "max": 9.4, "text": "Logo atrás, o braço erector monta anéis de concreto. Assim, o teto nunca fica sem apoio."},
+  {"id": "06d", "start": 104.8, "max": 7.6, "text": "A argamassa preenche o vazio atrás dos anéis, e os drenos controlam a água."},
+  {"id": "06e", "start": 112.8, "max": 7.6, "text": "Depois vêm o piso, os trilhos, a iluminação e a ventilação."},
+  {"id": "06f", "start": 120.8, "max": 6.0, "text": "E pronto: o primeiro trem passa pelo túnel!"},
+  {"id": "06g", "start": 127.6, "max": 4.6, "text": "Desta vez, o túnel aguenta o peso da terra."},
+  {"id": "06h", "start": 132.4, "max": 3.8, "text": "Errar faz parte. O importante é aprender!"}
+]

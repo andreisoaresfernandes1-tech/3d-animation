@@ -34,3 +34,14 @@ node render.mjs --still 10,44 --png quadro.png     # quadros soltos
 
 Requer Node 18+, ffmpeg e Playwright (Chromium). Tudo na cena é função do tempo,
 então cada renderização é idêntica.
+
+## Narração
+
+As falas ficam em `narracao/falas.json` (texto, início em segundos e tempo máximo). Para gerar a voz
+(edge-tts, voz `pt-BR-AntonioNeural`), mixar com os efeitos sonoros (estalos, estrondo, rebobinar,
+trem) e colocar o áudio nos vídeos e nas cenas, rode:
+
+```bash
+pip install edge-tts
+python narracao/montar.py --tts    # gera video/tunel-narrado.mp4 e video/tunel-vertical-narrado.mp4
+```
