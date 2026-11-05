@@ -1,5 +1,5 @@
 // Renderiza a animação quadro a quadro em MP4 (Playwright + ffmpeg).
-// Uso: node render.mjs [--out video/tunel.mp4] [--fps 30] [--start 0] [--end 90] [--still 45 --png shot.png]
+// Uso: node render.mjs [--vertical] [--out video/tunel.mp4] [--fps 30] [--start 0] [--end 90] [--still 45 --png shot.png]
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)('playwright');
 import { spawn } from 'node:child_process';
@@ -12,6 +12,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const arg = (k, d) => { const i = process.argv.indexOf(`--${k}`); return i > 0 ? process.argv[i + 1] : d; };
 const fps = +arg('fps', 30), out = arg('out', 'video/tunel.mp4');
 const still = arg('still', null);
+const vertical = process.argv.includes('--vertical');
 
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript' };
 const server = http.createServer((req, res) => {
@@ -22,7 +23,9 @@ const server = http.createServer((req, res) => {
 const port = server.address().port;
 
 const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+const page = await browser.newPage(vertical
+  ? { viewport: { width: 720, height: 1280 }, deviceScaleFactor: 1.5 }   // 1080×1920
+  : { viewport: { width: 1280, height: 720 } });
 page.on('pageerror', (e) => console.error('pageerror:', e.message));
 page.on('console', (m) => { if (m.type() === 'error') console.error('console:', m.text()); });
 // usa o three.js local em vez do CDN
@@ -30,7 +33,7 @@ await page.route('https://cdn.jsdelivr.net/npm/three@*/**', (route) => {
   const rel = new URL(route.request().url()).pathname.replace(/^\/npm\/three@[^/]+\//, '');
   route.fulfill({ path: path.join(root, 'node_modules/three', rel), contentType: 'text/javascript' });
 });
-await page.goto(`http://localhost:${port}/index.html?render=1`);
+await page.goto(`http://localhost:${port}/index.html?render=1${vertical ? '&vertical' : ''}`);
 await page.waitForFunction(() => window.ready === true, null, { timeout: 60000 });
 const duration = await page.evaluate(() => window.DURATION);
 

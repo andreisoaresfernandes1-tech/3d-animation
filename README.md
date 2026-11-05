@@ -19,14 +19,15 @@ O roteiro completo, com narração, está em [ROTEIRO.md](ROTEIRO.md).
 
 ```bash
 npx serve .        # ou qualquer servidor estático
-# abra http://localhost:3000  (use ?t=79.5 para pular para a 6ª tentativa)
+# abra http://localhost:3000  (?vertical para 9:16; use ?t=79.5 para pular para a 6ª tentativa)
 ```
 
 ## Renderizar o MP4
 
 ```bash
 npm install
-node render.mjs --out video/tunel.mp4          # vídeo completo
+node render.mjs --out video/tunel.mp4          # vídeo completo 16:9
+node render.mjs --vertical --out video/tunel-vertical.mp4   # 9:16 (1080×1920) para Reels/Shorts/TikTok
 node render.mjs --start 33 --end 48 --out e4.mp4   # só um trecho
 node render.mjs --still 10,44 --png quadro.png     # quadros soltos
 ```

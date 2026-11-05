@@ -4,7 +4,10 @@
 import * as THREE from 'three';
 
 export const DURATION = 136.5;  // 0–7 abertura · 7–79.5 cinco tentativas que desabam · 79.5–136.5 a tentativa que dá certo
-const W = 1280, H = 720;
+const QS = new URLSearchParams(location.search);
+const VERT = QS.has('vertical');            // formato 9:16 (Reels / Shorts / TikTok)
+const W = VERT ? 720 : 1280, H = VERT ? 1280 : 720;
+if (VERT) document.body.classList.add('vertical');
 
 // ---------------------------------------------------------------- helpers
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
@@ -40,14 +43,14 @@ const LAYERS = [
   { name: 'Solo superficial', top: 0, bot: -2.5, color: 0x6e4a2c, sp: 0.2 },
   { name: 'Argila', top: -2.5, bot: -10, color: 0x9c5b36, sp: 0.1 },
   { name: 'Arenito', top: -10, bot: -24, color: 0xc29a62, sp: 0.35, tunnel: true },
-  { name: 'Rocha', top: -24, bot: -34, color: 0x67635e, sp: 0.6 },
+  { name: 'Rocha', top: -24, bot: -60, color: 0x67635e, sp: 0.6 },
 ];
 
 // ---------------------------------------------------------------- renderer / scene
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
-renderer.setPixelRatio(1);
-renderer.setSize(W, H, false);
+renderer.setPixelRatio(QS.has('render') ? window.devicePixelRatio : 1);
+renderer.setSize(W, H);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
@@ -63,7 +66,7 @@ const scene = new THREE.Scene();
   g.fillStyle = gr; g.fillRect(0, 0, 4, 256);
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; scene.background = tex;
 }
-const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 800);
+const camera = new THREE.PerspectiveCamera(VERT ? 55 : 40, W / H, 0.1, 800);
 scene.add(camera);
 scene.add(new THREE.HemisphereLight(0xcfe3ff, 0x5a4632, 1.6));
 const sun = new THREE.DirectionalLight(0xfff1dc, 2.4); sun.position.set(30, 60, 45); scene.add(sun);
@@ -855,6 +858,7 @@ function frame(T) {
     worker.g.visible = t < 40; worker.g.position.set(-36.6, FLOOR, -6.5); worker.g.rotation.y = 0; poseWorker(t > 34 ? 'cheer' : 'idle', t);
     cam = camAt(t, SHOTS, T_S > 0 ? ATT[4].shots[0].f(0) : null);
   }
+  if (VERT && !(mode === 'win' && t >= 80.5)) cam.p.sub(cam.q).multiplyScalar(1.3).add(cam.q); // afasta a câmera no formato vertical
   camera.position.copy(cam.p); camera.lookAt(cam.q); camera.updateMatrixWorld();
 
   // DOM
