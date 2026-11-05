@@ -1,25 +1,22 @@
 # Como construir um túnel subterrâneo — animação 3D
 
-Vídeo didático (90 s, 1280×720, 30 fps) feito com Three.js. A cena é uma vista em corte do
-terreno e mostra, passo a passo, a construção de um túnel com tuneladora (TBM).
+Vídeo didático (2:09, 1280×720, 30 fps) feito com Three.js, numa vista em corte do terreno.
+Primeiro constroem o túnel **do jeito errado** e ele desaba e inunda. Depois o vídeo **rebobina**
+e mostra a construção **do jeito certo** com tuneladora (TBM). O roteiro completo, com narração,
+está em [ROTEIRO.md](ROTEIRO.md).
 
-| Tempo | Etapa |
+| Tempo | Parte |
 |---|---|
-| 0–6 s | Abertura |
-| 6–15 s | 1. Estudo do solo (sondagem e camadas) |
-| 15–25 s | 2. Poço de acesso (paredes-diafragma) |
-| 25–33 s | 3. Descida da tuneladora |
-| 33–48 s | 4. Escavação (cabeça de corte, esteira) |
-| 48–58 s | 5. Revestimento com anéis pré-moldados |
-| 58–66 s | 6. Injeção de argamassa e drenagem; chegada da TBM |
-| 66–74 s | 7. Acabamento (piso, trilhos, iluminação, ventilação) |
-| 74–90 s | 8. Túnel em operação: trem e voo pelo interior |
+| 0:00–0:06 | Abertura |
+| 0:06–0:40 | Jeito errado: sem sondagem, poço sem contenção, túnel sem revestimento → desabamento |
+| 0:40–0:45 | Rebobinando |
+| 0:45–2:09 | Jeito certo: 8 etapas, da sondagem ao primeiro trem |
 
 ## Ver no navegador
 
 ```bash
 npx serve .        # ou qualquer servidor estático
-# abra http://localhost:3000  (use ?t=45 para começar em 45 s)
+# abra http://localhost:3000  (use ?t=45 para começar no jeito certo)
 ```
 
 ## Renderizar o MP4

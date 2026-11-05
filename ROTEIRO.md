@@ -1,67 +1,102 @@
 # Roteiro — Como construir um túnel subterrâneo
 
-Duração: 90 s · Formato: 1280×720, 30 fps · Estilo: animação 3D em corte do terreno.
-A narração (locução) está sugerida para gravação e acompanha os tempos da animação.
+Duração: 2:09 · Formato: 1280×720, 30 fps · Estilo: animação 3D em corte do terreno.
+A história tem três atos: primeiro constroem **do jeito errado** e tudo desaba; o vídeo
+**rebobina**; e então constroem **do jeito certo**. A narração (locução) está sugerida e acompanha os tempos.
 
 ---
 
-## Cena 0 — Abertura (0:00–0:06)
-**Imagem:** voo aéreo sobre a cidade. A câmera desce e revela o terreno em corte, com as camadas de solo à mostra.
-**Texto na tela:** "Como construir um túnel subterrâneo" / "Do estudo do solo ao primeiro trem"
+## Abertura (0:00–0:06)
+**Imagem:** voo aéreo sobre a cidade. A câmera desce e revela o terreno em corte.
+**Texto na tela:** "Como construir um túnel subterrâneo" / "Primeiro… do jeito errado"
 **Narração:**
-> Debaixo das ruas da cidade, um túnel está prestes a nascer. Mas como se constrói um caminho no meio da terra?
+> Construir um túnel parece simples: é só cavar, certo? Vamos ver o que acontece quando alguém tenta fazer isso com pressa.
 
-## Cena 1 — Estudo do solo (0:06–0:15)
-**Imagem:** uma sonda se instala na superfície, e a haste perfura até a rocha. Aparecem os rótulos *Solo superficial, Argila, Arenito, Rocha*, e depois a linha tracejada do *Traçado do túnel*.
-**Legenda:** Etapa 1 — Estudo do solo
-**Narração:**
-> Tudo começa com sondagens. Amostras do subsolo mostram cada camada do terreno, e assim os engenheiros escolhem a profundidade mais segura para o túnel.
+# ATO 1 — O jeito errado
 
-## Cena 2 — Poço de acesso (0:15–0:25)
-**Imagem:** um pórtico rolante é montado. Uma escavadeira trabalha no fundo do poço, a caçamba sobe com terra e a pilha cresce na superfície. As paredes de concreto acompanham a escavação. Rótulo: *Paredes-diafragma*.
-**Legenda:** Etapa 2 — Poço de acesso
+## Erro 1 — Pular o estudo do solo (0:06–0:12)
+**Imagem:** o terreno em corte com pontos de interrogação sobre cada camada. Não há sondagem.
+**Legenda (vermelha):** Erro 1 — Pular o estudo do solo
 **Narração:**
-> Para chegar lá embaixo, primeiro escavamos um poço vertical. Paredes de concreto, as paredes-diafragma, seguram o solo e impedem desabamentos.
+> Primeiro erro: começar sem sondagens. Ninguém sabe que camadas existem lá embaixo, nem se há água.
 
-## Cena 3 — Descida da tuneladora (0:25–0:33)
-**Imagem:** o pórtico desce a tuneladora presa por cabos até o fundo do poço. Rótulo: *Tuneladora (TBM)*.
-**Legenda:** Etapa 3 — Descida da tuneladora
+## Erro 2 — Poço sem contenção (0:12–0:20)
+**Imagem:** cavam o poço sem paredes de concreto. As laterais racham e blocos de terra despencam sobre a escavadeira. A tela treme. Rótulos: *Sem paredes de contenção*, *Desmoronamento*.
+**Legenda:** Erro 2 — Poço sem contenção
 **Narração:**
-> Então entra em cena a estrela da obra: a tuneladora, ou TBM. Ela é montada e descida, peça por peça, até o fundo do poço.
+> Segundo erro: cavar o poço sem paredes de contenção. O solo não se sustenta sozinho, e as laterais desabam.
 
-## Cena 4 — Escavação (0:33–0:48)
-**Imagem:** a cabeça de corte gira e rompe a parede do poço. A máquina avança pelo arenito, seguida pelo comboio de apoio. A terra corre pela esteira até a superfície. Close na frente da máquina com os rótulos *Cabeça de corte, Escudo de aço, Esteira transportadora*.
-**Legenda:** Etapa 4 — Escavação
+## Erro 3 — Escavar sem revestimento (0:20–0:30)
+**Imagem:** mesmo assim, a tuneladora é descida e começa a escavar, mas nenhum anel de concreto é instalado. Rótulo: *Sem anéis de concreto!*
+**Legenda:** Erro 3 — Escavar sem revestimento
 **Narração:**
-> A cabeça de corte gira sem parar, triturando o solo. O escudo de aço protege os trabalhadores, enquanto uma esteira leva toneladas de terra para fora, dia e noite.
+> Terceiro erro: avançar sem revestir o túnel. As paredes de terra ficam expostas e sem nenhum apoio.
 
-## Cena 5 — Revestimento (0:48–0:58)
-**Imagem:** close atrás do escudo. O braço erector gira e posiciona cada segmento de concreto até fechar o anel; a peça-chave entra por último, no topo. Rótulos: *Braço erector, Anéis de concreto, Macacos hidráulicos*.
-**Legenda:** Etapa 5 — Revestimento
+## Desastre (0:30–0:36)
+**Imagem:** jatos de água saem do teto, e o lençol freático (que ninguém estudou) aparece no corte. O túnel e o poço inundam, o teto cede, uma chaminé de terra sobe até a superfície e abre uma cratera na rua, onde um carro afunda. Tela vermelha piscando com o texto **"DESABAMENTO!"**. Rótulos: *Lençol freático, Inundação, Cratera na rua*.
+**Legenda:** Resultado — Desastre!
 **Narração:**
-> Logo atrás do escudo, um braço robótico, o erector, monta anéis de concreto pré-moldado, segmento por segmento. Macacos hidráulicos empurram a máquina contra o último anel, e ela avança mais um passo.
+> Havia água no subsolo. Sem revestimento, ela invade o túnel, o teto cede… e a rua lá em cima afunda.
 
-## Cena 6 — Injeção e impermeabilização (0:58–1:06)
-**Imagem:** vista geral do túnel entre os dois poços. A camada de argamassa brilha atrás dos anéis e o dreno azul se estende pelo fundo. A TBM chega ao poço de saída. Rótulos: *Argamassa, Dreno*.
-**Legenda:** Etapa 6 — Injeção e impermeabilização
+## O que deu errado? (0:36–0:40)
+**Imagem:** visão geral do desastre com um quadro que lista os erros, um por um:
+✗ Não estudaram o solo (havia água!) · ✗ Poço sem paredes de contenção · ✗ Túnel sem anéis de revestimento
 **Narração:**
-> Atrás dos anéis, injeta-se argamassa para preencher o vazio e travar o revestimento. Drenos controlam a água do subsolo. E finalmente a tuneladora chega ao outro lado.
+> Três erros, um desastre. Então vamos voltar no tempo…
 
-## Cena 7 — Acabamento (1:06–1:14)
-**Imagem:** a TBM é içada pelo poço de saída. O piso de concreto, os trilhos e a passarela avançam pelo túnel, as luminárias acendem em sequência e os ventiladores aparecem no teto. Rótulos: *Iluminação, Trilhos, Ventiladores*.
-**Legenda:** Etapa 7 — Acabamento
-**Narração:**
-> Com a escavação concluída, a máquina é retirada. Agora vêm o piso, os trilhos, a iluminação e a ventilação, que transformam o buraco em infraestrutura.
+# ATO 2 — Rebobinando (0:40–0:45)
+**Imagem:** efeito de fita VHS: tela dessaturada com linhas de varredura e o selo "◀◀ REBOBINANDO". Toda a cena volta ao contrário: a água baixa, a terra sobe de volta, a TBM recua e o poço se fecha, até o terreno intacto.
+**Texto na tela:** "Vamos voltar e fazer do jeito certo!"
+**Efeito sonoro:** fita rebobinando.
 
-## Cena 8 — Túnel em operação (1:14–1:30)
-**Imagem:** o primeiro trem atravessa o túnel na vista em corte. Após um corte para preto, a câmera voa por dentro do túnel iluminado. Tela final: "Túnel concluído!"
-**Legenda:** Etapa 8 — Túnel em operação
+# ATO 3 — O jeito certo
+
+## Selo (0:45–0:48)
+**Texto na tela:** "✔ Agora, do jeito certo!"
+
+## Etapa 1 — Estudo do solo (0:45–0:54)
+**Imagem:** a sonda perfura até a rocha. Aparecem os rótulos *Solo superficial, Argila, Lençol freático (água), Arenito, Rocha*, e depois a linha tracejada do *Traçado do túnel*.
 **Narração:**
-> E pronto: o túnel recebe seus primeiros trens. Da próxima vez que você passar por um, lembre-se: há muita engenharia trabalhando debaixo dos seus pés.
+> Agora sim: tudo começa com sondagens. Elas revelam cada camada do terreno e também o lençol freático. Com isso, os engenheiros sabem exatamente com o que vão lidar.
+
+## Etapa 2 — Poço de acesso (0:54–1:04)
+**Imagem:** as paredes-diafragma de concreto descem junto com a escavação, e nada desmorona. Rótulo: *Paredes-diafragma*.
+**Narração:**
+> O poço é contido por paredes-diafragma, que seguram o solo durante toda a escavação.
+
+## Etapa 3 — Descida da tuneladora (1:04–1:12)
+**Imagem:** o pórtico desce a TBM até o fundo do poço. Rótulo: *Tuneladora (TBM)*.
+**Narração:**
+> A tuneladora é montada e descida com cuidado até o fundo do poço.
+
+## Etapa 4 — Escavação (1:12–1:27)
+**Imagem:** a cabeça de corte gira, e a terra sai pela esteira. Rótulos: *Cabeça de corte, Escudo de aço, Esteira transportadora*.
+**Narração:**
+> A cabeça de corte tritura o solo, e o escudo de aço sustenta o terreno enquanto a máquina avança.
+
+## Etapa 5 — Revestimento (1:27–1:37)
+**Imagem:** o braço erector monta cada anel, segmento por segmento, com a peça-chave por último. Rótulos: *Braço erector, Anéis de concreto, Macacos hidráulicos*.
+**Narração:**
+> Logo atrás do escudo, o braço erector monta anéis de concreto. Assim o teto nunca fica sem apoio, que foi exatamente o erro da primeira vez.
+
+## Etapa 6 — Injeção e impermeabilização (1:37–1:45)
+**Imagem:** a argamassa brilha atrás dos anéis, e o dreno corre pelo fundo. A TBM chega ao poço de saída. Rótulos: *Argamassa, Dreno*.
+**Narração:**
+> A argamassa sela o espaço atrás dos anéis, e drenos controlam a água do lençol freático. Desta vez a água fica do lado de fora.
+
+## Etapa 7 — Acabamento (1:45–1:53)
+**Imagem:** a TBM é içada. Piso, trilhos, iluminação e ventiladores são instalados. Rótulos: *Iluminação, Trilhos, Ventiladores*.
+**Narração:**
+> A máquina é retirada e entram o piso, os trilhos, a iluminação e a ventilação.
+
+## Etapa 8 — Túnel em operação (1:53–2:09)
+**Imagem:** o primeiro trem atravessa o túnel. Depois a câmera voa por dentro do túnel iluminado. Tela final: "Túnel concluído!"
+**Narração:**
+> E pronto: um túnel seguro, seco e firme. A diferença entre o desastre e o sucesso? Planejamento e engenharia.
 
 ---
 
 ### Notas de produção
-- **Trilha:** instrumental eletrônica e leve, crescendo na Cena 4 e com um clímax na chegada da TBM (1:04).
-- **Efeitos sonoros:** perfuração (0:07), motor da escavadeira (0:16), giro da cabeça de corte (0:34), encaixe metálico dos segmentos (0:48–0:58), passagem do trem (1:15).
-- **Ritmo da locução:** cerca de 130 palavras por minuto. Cada bloco cabe na sua cena com folga.
+- **Trilha:** no Ato 1, começa leve e fica tensa a cada erro, com um impacto forte no desabamento (0:30). No Ato 3, a trilha é positiva e cresce até o trem.
+- **Efeitos sonoros:** desmoronamento (0:17), alarme e estrondo (0:30–0:36), água jorrando, fita rebobinando (0:40), sondagem (0:46), encaixe metálico dos segmentos (1:27–1:37), passagem do trem (1:54).
+- **Ritmo da locução:** cerca de 130 palavras por minuto.
