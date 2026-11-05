@@ -1,0 +1,23 @@
+{
+  "name": "3d-animation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreisoaresfernandes1-tech/3d-animation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreisoaresfernandes1-tech/3d-animation/issues"
+  },
+  "homepage": "https://github.com/andreisoaresfernandes1-tech/3d-animation#readme",
+  "dependencies": {
+    "three": "^0.169.0"
+  }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Como construir um túnel</title>
+<style>
+  :root { --accent: #f5b301; --ink: #ffffff; --panel: rgba(12, 16, 24, 0.72); }
+  html, body { margin: 0; height: 100%; background: #05070a; overflow: hidden; }
+  body { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+  #wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #stage { position: relative; width: 1280px; height: 720px; transform-origin: center center; overflow: hidden; background: #000; }
+  canvas { display: block; }
+  .ov { position: absolute; inset: 0; pointer-events: none; }
+
+  #caption { position: absolute; left: 40px; top: 36px; max-width: 560px; padding: 18px 22px 18px 22px;
+    background: var(--panel); border-left: 6px solid var(--accent); border-radius: 6px; opacity: 0; }
+  #caption .num { font-size: 15px; font-weight: 700; letter-spacing: .14em; color: var(--accent); text-transform: uppercase; }
+  #caption .ttl { font-size: 34px; font-weight: 800; line-height: 1.1; margin-top: 4px; }
+  #caption .sub { font-size: 18px; line-height: 1.4; margin-top: 10px; color: #dfe6ee; font-weight: 500; }
+
+  #title { position: absolute; left: 0; right: 0; top: 170px; padding: 34px 0 38px; text-align: center; opacity: 0;
+    background: linear-gradient(90deg, transparent, rgba(8,10,14,.72) 18%, rgba(8,10,14,.72) 82%, transparent); }
+  #title h1 { margin: 0; font-size: 58px; font-weight: 900; letter-spacing: -.01em; text-shadow: 0 4px 24px rgba(0,0,0,.6); }
+  #title p { margin: 14px 0 0; font-size: 24px; font-weight: 600; color: var(--accent); text-shadow: 0 2px 12px rgba(0,0,0,.7); }
+
+  #endtitle { position: absolute; left: 0; right: 0; top: 270px; text-align: center; opacity: 0; }
+  #endtitle h1 { margin: 0; font-size: 72px; font-weight: 900; text-shadow: 0 4px 30px rgba(0,0,0,.8); }
+  #endtitle p { margin: 12px 0 0; font-size: 24px; font-weight: 600; color: var(--accent); }
+
+  .lbl { position: absolute; left: 0; top: 0; opacity: 0; }
+  .lbl .dot { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,.45); }
+  .lbl .line { position: absolute; height: 2px; background: var(--accent); transform-origin: 0 50%; }
+  .lbl .txt { position: absolute; white-space: nowrap; padding: 6px 12px; font-size: 17px; font-weight: 700;
+    background: var(--panel); border: 1px solid rgba(245,179,1,.7); border-radius: 4px; transform: translate(-50%, -50%); }
+
+  #fade { position: absolute; inset: 0; background: #000; opacity: 0; }
+  #progress { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--accent); width: 0; }
+
+  #controls { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 10px;
+    align-items: center; background: rgba(20,24,32,.85); padding: 8px 14px; border-radius: 8px; font-size: 14px; }
+  #controls button { background: var(--accent); border: 0; border-radius: 4px; padding: 6px 12px; font-weight: 700; cursor: pointer; }
+  #controls input { width: min(60vw, 520px); }
+  body.render #controls { display: none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="stage">
+    <canvas id="c" width="1280" height="720"></canvas>
+    <div class="ov" id="labels"></div>
+    <div class="ov">
+      <div id="title"><h1>Como construir um túnel subterrâneo</h1><p>Do estudo do solo ao primeiro trem</p></div>
+      <div id="caption"><div class="num"></div><div class="ttl"></div><div class="sub"></div></div>
+      <div id="endtitle"><h1>Túnel concluído!</h1><p>Engenharia trabalhando debaixo dos nossos pés</p></div>
+      <div id="progress"></div>
+      <div id="fade"></div>
+    </div>
+  </div>
+</div>
+<div id="controls">
+  <button id="play">⏸</button>
+  <input id="scrub" type="range" min="0" max="90" step="0.01" value="0">
+  <span id="time">0.0s</span>
+</div>
+<script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js" } }
+</script>
+<script type="module" src="./main.js"></script>
+</body>
+</html>
