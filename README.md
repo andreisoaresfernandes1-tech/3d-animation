@@ -1,22 +1,25 @@
 # Como construir um túnel subterrâneo — animação 3D
 
-Vídeo didático (2:09, 1280×720, 30 fps) feito com Three.js, numa vista em corte do terreno.
-Primeiro constroem o túnel **do jeito errado** e ele desaba e inunda. Depois o vídeo **rebobina**
-e mostra a construção **do jeito certo** com tuneladora (TBM). O roteiro completo, com narração,
-está em [ROTEIRO.md](ROTEIRO.md).
+Vídeo didático (2:16, 1280×720, 30 fps) feito com Three.js, numa vista em corte do terreno.
+Cavar um túnel abre um buraco debaixo da terra, mas a terra em cima pesa e tudo desaba. O personagem
+erra **5 vezes**: a cada erro o túnel desaba e o vídeo rebobina. Na **6ª tentativa** ele acerta.
+O roteiro completo, com narração, está em [ROTEIRO.md](ROTEIRO.md).
 
 | Tempo | Parte |
 |---|---|
-| 0:00–0:06 | Abertura |
-| 0:06–0:40 | Jeito errado: sem sondagem, poço sem contenção, túnel sem revestimento → desabamento |
-| 0:40–0:45 | Rebobinando |
-| 0:45–2:09 | Jeito certo: 8 etapas, da sondagem ao primeiro trem |
+| 0:00–0:07 | Abertura |
+| 0:07–0:21 | Tentativa 1: só cavar |
+| 0:21–0:36 | Tentativa 2: escoras de madeira |
+| 0:36–0:50 | Tentativa 3: teto reto de concreto |
+| 0:50–1:05 | Tentativa 4: arco de tijolos (a água infiltra) |
+| 1:05–1:19 | Tentativa 5: tuneladora com anéis atrasados |
+| 1:19–2:16 | Tentativa 6: tuneladora + anéis logo atrás + argamassa → trem passando |
 
 ## Ver no navegador
 
 ```bash
 npx serve .        # ou qualquer servidor estático
-# abra http://localhost:3000  (use ?t=45 para começar no jeito certo)
+# abra http://localhost:3000  (use ?t=79.5 para pular para a 6ª tentativa)
 ```
 
 ## Renderizar o MP4

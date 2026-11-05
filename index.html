@@ -39,14 +39,20 @@
   #caption.bad { border-left-color: #ff3b30; }
   #caption.bad .num { color: #ff5a4f; }
   #alarm { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse at center, rgba(255,0,0,0) 45%, rgba(220,20,20,.75) 100%); }
-  #alert { position: absolute; left: 0; right: 0; top: 300px; text-align: center; opacity: 0; font-size: 92px; font-weight: 900;
-    color: #fff; letter-spacing: .02em; text-shadow: 0 0 30px rgba(255,0,0,.9), 0 6px 0 #a00; }
-  #summary { position: absolute; left: 50%; top: 50%; width: 620px; transform: translate(-50%, -50%); opacity: 0;
-    background: rgba(12,16,24,.88); border: 2px solid #ff3b30; border-radius: 10px; padding: 26px 34px; }
-  #summary h2 { margin: 0 0 16px; font-size: 38px; font-weight: 900; }
-  #summary li { list-style: none; font-size: 24px; font-weight: 600; margin: 12px 0; opacity: 0; }
-  #summary li b { color: #ff5a4f; margin-right: 12px; }
-  #summary ul { margin: 0; padding: 0; }
+  #stamp { position: absolute; left: 50%; top: 46%; opacity: 0; font-size: 86px; font-weight: 900; color: #ff3b30;
+    border: 8px solid #ff3b30; border-radius: 14px; padding: 4px 30px; background: rgba(255,255,255,.88); white-space: nowrap; }
+  #bubble { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; background: #fff; color: #111; font-size: 24px;
+    font-weight: 800; padding: 10px 18px; border-radius: 18px; margin: 0; translate: -50% -100%; box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+  #bubble::after { content: ""; position: absolute; left: 50%; bottom: -12px; margin-left: -10px; border: 10px solid transparent;
+    border-top-color: #fff; border-bottom: 0; }
+  #tries { position: absolute; right: 36px; top: 36px; display: flex; gap: 8px; align-items: center; padding: 10px 14px;
+    background: var(--panel); border-radius: 8px; opacity: 0; }
+  #tries span { font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #cfd6de; margin-right: 6px; }
+  #tries i { font-style: normal; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800;
+    font-size: 15px; border: 2px solid rgba(255,255,255,.35); color: rgba(255,255,255,.55); }
+  #tries i.cur { border-color: #fff; color: #fff; }
+  #tries i.bad { background: #ff3b30; border-color: #ff3b30; color: #fff; }
+  #tries i.ok { background: #1f9d55; border-color: #1f9d55; color: #fff; }
   #rewind { position: absolute; inset: 0; opacity: 0;
     background: repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 2px, rgba(0,0,0,.12) 2px 5px); }
   #rewind .tag { position: absolute; right: 48px; top: 40px; font-size: 44px; font-weight: 900; color: #fff;
@@ -71,17 +77,15 @@
     <canvas id="c" width="1280" height="720"></canvas>
     <div class="ov" id="labels"></div>
     <div class="ov">
-      <div id="title"><h1>Como construir um túnel subterrâneo</h1><p>Primeiro… do jeito errado</p></div>
+      <div id="title"><h1>Como construir um túnel subterrâneo</h1><p>Parece fácil: é só cavar… será?</p></div>
       <div id="caption"><div class="num"></div><div class="ttl"></div><div class="sub"></div></div>
-      <div id="endtitle"><h1>Túnel concluído!</h1><p>Engenharia trabalhando debaixo dos nossos pés</p></div>
+      <div id="endtitle"><h1>Túnel concluído!</h1><p>Na 6ª tentativa, ele finalmente aguenta o peso da terra</p></div>
       <div id="alarm"></div>
-      <div id="alert">DESABAMENTO!</div>
-      <div id="summary"><h2>O que deu errado?</h2><ul>
-        <li><b>✗</b>Não estudaram o solo (havia água!)</li>
-        <li><b>✗</b>Poço sem paredes de contenção</li>
-        <li><b>✗</b>Túnel sem anéis de revestimento</li></ul></div>
-      <div id="rewind"><div class="tag">◀◀ REBOBINANDO</div><div class="msg">Vamos voltar e fazer do jeito certo!</div></div>
-      <div id="good">✔ Agora, do jeito certo!</div>
+      <div id="stamp">✗ DESABOU!</div>
+      <div id="bubble"></div>
+      <div id="tries"><span>Tentativas</span><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></div>
+      <div id="rewind"><div class="tag">◀◀ REBOBINANDO</div><div class="msg">Tentar de novo!</div></div>
+      <div id="good">✔ Tentativa 6: agora vai!</div>
       <div id="progress"></div>
       <div id="fade"></div>
     </div>
@@ -89,7 +93,7 @@
 </div>
 <div id="controls">
   <button id="play">⏸</button>
-  <input id="scrub" type="range" min="0" max="129" step="0.01" value="0">
+  <input id="scrub" type="range" min="0" max="136.5" step="0.01" value="0">
   <span id="time">0.0s</span>
 </div>
 <script type="importmap">

@@ -1,102 +1,83 @@
 # Roteiro — Como construir um túnel subterrâneo
 
-Duração: 2:09 · Formato: 1280×720, 30 fps · Estilo: animação 3D em corte do terreno.
-A história tem três atos: primeiro constroem **do jeito errado** e tudo desaba; o vídeo
-**rebobina**; e então constroem **do jeito certo**. A narração (locução) está sugerida e acompanha os tempos.
+Duração: 2:16 · Formato: 1280×720, 30 fps · Estilo: animação 3D em corte do terreno.
+
+**A ideia:** cavar um túnel é abrir um buraco debaixo da terra. Só que a terra em cima é
+muito pesada, e se o buraco não tiver apoio, tudo desaba. O personagem (um operário de
+capacete) **erra 5 vezes**. A cada erro o túnel desaba e o vídeo **volta (rebobina)** para
+ele tentar de novo. Na **6ª tentativa** ele acerta.
+
+No canto superior direito, um contador mostra as tentativas 1 a 6. Cada erro vira um ✗ vermelho, e a 6ª vira um ✓ verde.
+
+Cada tentativa segue o mesmo ritmo (12,5 s + 2 s de rebobinar):
+1. **Cavando** (0–6 s): ele explica o plano com um balão de fala.
+2. **O peso da terra** (6–8,5 s): setas vermelhas descem sobre o túnel, trincas se espalham, e aparece o rótulo *Peso da terra*.
+3. **Desabou!** (8,5–10,5 s): ele foge correndo, a terra cai e enche o túnel, uma chaminé de terra sobe até a superfície, abre-se uma cratera na rua, a tela treme e entra o carimbo **"✗ DESABOU!"**.
+4. **Reação** (10,5–12,5 s): o personagem fica cabisbaixo, com um balão de fala, e a legenda explica o erro.
+5. **Rebobinando** (2 s): efeito de fita VHS, com toda a cena voltando ao contrário e o texto "Tentar de novo!".
 
 ---
 
-## Abertura (0:00–0:06)
-**Imagem:** voo aéreo sobre a cidade. A câmera desce e revela o terreno em corte.
-**Texto na tela:** "Como construir um túnel subterrâneo" / "Primeiro… do jeito errado"
+## Abertura (0:00–0:07)
+**Imagem:** a câmera desce do céu até o fundo de um poço, onde o operário espera de pá na mão.
+**Texto na tela:** "Como construir um túnel subterrâneo" / "Parece fácil: é só cavar… será?"
 **Narração:**
-> Construir um túnel parece simples: é só cavar, certo? Vamos ver o que acontece quando alguém tenta fazer isso com pressa.
+> Se você cavar debaixo da terra, abre um buraco: um túnel. Simples, né? Mas tem um problema: a terra lá em cima é pesada. Muito pesada.
 
-# ATO 1 — O jeito errado
-
-## Erro 1 — Pular o estudo do solo (0:06–0:12)
-**Imagem:** o terreno em corte com pontos de interrogação sobre cada camada. Não há sondagem.
-**Legenda (vermelha):** Erro 1 — Pular o estudo do solo
+## Tentativa 1 — Só cavar (0:07–0:21)
+**Balão:** "É só cavar!" → depois: "Ops…"
+**Imagem:** ele cava um buraco com a pá, sem nenhum apoio. As setas do peso aparecem, o teto cede, e um carro na rua cai na cratera.
+**Legenda:** "O cara cava um buraco debaixo da terra com uma pá." → "Mas a terra em cima pesa toneladas…" → "Sem nenhum apoio, o teto não aguenta o peso e desaba."
 **Narração:**
-> Primeiro erro: começar sem sondagens. Ninguém sabe que camadas existem lá embaixo, nem se há água.
+> Primeira tentativa: só cavar. Mas sem nada segurando, o peso da terra derruba o teto.
 
-## Erro 2 — Poço sem contenção (0:12–0:20)
-**Imagem:** cavam o poço sem paredes de concreto. As laterais racham e blocos de terra despencam sobre a escavadeira. A tela treme. Rótulos: *Sem paredes de contenção*, *Desmoronamento*.
-**Legenda:** Erro 2 — Poço sem contenção
+## Tentativa 2 — Escoras de madeira (0:21–0:36)
+**Balão:** "Agora com escoras!" → "De novo?!"
+**Imagem:** ele coloca vigas de madeira ao longo do túnel. Com o peso, as escoras entortam e quebram.
+**Legenda:** "Madeira fina não aguenta tanta terra: as escoras quebram."
 **Narração:**
-> Segundo erro: cavar o poço sem paredes de contenção. O solo não se sustenta sozinho, e as laterais desabam.
+> Segunda: escorar com madeira. Melhor… mas madeira fina não aguenta tanta terra.
 
-## Erro 3 — Escavar sem revestimento (0:20–0:30)
-**Imagem:** mesmo assim, a tuneladora é descida e começa a escavar, mas nenhum anel de concreto é instalado. Rótulo: *Sem anéis de concreto!*
-**Legenda:** Erro 3 — Escavar sem revestimento
+## Tentativa 3 — Teto reto de concreto (0:36–0:50)
+**Balão:** "Concreto resolve!" → "Hmm…"
+**Imagem:** paredes e um teto plano de concreto. O teto enverga no meio, racha e despenca.
+**Legenda:** "O teto reto racha. Formas redondas distribuem muito melhor o peso!"
 **Narração:**
-> Terceiro erro: avançar sem revestir o túnel. As paredes de terra ficam expostas e sem nenhum apoio.
+> Terceira: concreto, com teto reto. Só que num teto reto o peso se concentra no meio, e ele racha.
 
-## Desastre (0:30–0:36)
-**Imagem:** jatos de água saem do teto, e o lençol freático (que ninguém estudou) aparece no corte. O túnel e o poço inundam, o teto cede, uma chaminé de terra sobe até a superfície e abre uma cratera na rua, onde um carro afunda. Tela vermelha piscando com o texto **"DESABAMENTO!"**. Rótulos: *Lençol freático, Inundação, Cratera na rua*.
-**Legenda:** Resultado — Desastre!
+## Tentativa 4 — Arco de tijolos (0:50–1:05)
+**Balão:** "Redondo é mais forte!" → "Não acredito!"
+**Imagem:** um túnel redondo de tijolos. Agora aparece o lençol freático: gotas de água atravessam a terra, o túnel começa a alagar e o arco cede. Rótulo: *Água infiltrando*.
+**Legenda:** "Sem vedação, a água lava a areia e o arco cede."
 **Narração:**
-> Havia água no subsolo. Sem revestimento, ela invade o túnel, o teto cede… e a rua lá em cima afunda.
+> Quarta: um arco redondo de tijolos. A forma está certa! Mas a água do subsolo infiltra e amolece a terra.
 
-## O que deu errado? (0:36–0:40)
-**Imagem:** visão geral do desastre com um quadro que lista os erros, um por um:
-✗ Não estudaram o solo (havia água!) · ✗ Poço sem paredes de contenção · ✗ Túnel sem anéis de revestimento
+## Tentativa 5 — Tuneladora com anéis atrasados (1:05–1:19)
+**Balão:** "Com máquina vai!" → "Quase!"
+**Imagem:** uma tuneladora (TBM) escava, mas os anéis de concreto ficam muito para trás. O trecho sem anéis desaba sobre o comboio da máquina. Rótulo: *Trecho sem anéis*.
+**Legenda:** "Entre a máquina e os anéis, o túnel desaba."
+**Rebobinando:** "Agora vai!"
 **Narração:**
-> Três erros, um desastre. Então vamos voltar no tempo…
+> Quinta: uma tuneladora! Mas os anéis de concreto ficaram longe demais, e o pedaço sem apoio desabou.
 
-# ATO 2 — Rebobinando (0:40–0:45)
-**Imagem:** efeito de fita VHS: tela dessaturada com linhas de varredura e o selo "◀◀ REBOBINANDO". Toda a cena volta ao contrário: a água baixa, a terra sobe de volta, a TBM recua e o poço se fecha, até o terreno intacto.
-**Texto na tela:** "Vamos voltar e fazer do jeito certo!"
-**Efeito sonoro:** fita rebobinando.
+## Tentativa 6 — Do jeito certo (1:19–2:16)
+**Texto na tela:** "✔ Tentativa 6: agora vai!" · **Balão:** "Agora eu sei o que fazer!"
 
-# ATO 3 — O jeito certo
+| Tempo | Legenda | Imagem / rótulos |
+|---|---|---|
+| 1:19 | **Agora vai: tuneladora**: o escudo de aço segura a terra enquanto a cabeça de corte escava. | *Cabeça de corte, Escudo de aço, Esteira transportadora* |
+| 1:34 | **Anéis logo atrás**: a cada passo, o braço erector monta um anel de concreto. O teto nunca fica sem apoio! | *Braço erector, Anéis de concreto, Macacos hidráulicos* |
+| 1:44 | **Selado contra a água**: argamassa preenche o vazio atrás dos anéis, e drenos controlam a água. | *Argamassa, Dreno, Lençol freático* |
+| 1:52 | **Acabamento**: a tuneladora sai. Entram piso, trilhos, iluminação e ventilação. | *Iluminação, Trilhos, Ventiladores* |
+| 2:00 | **Deu certo! Túnel em operação**: o primeiro trem passa e a câmera voa por dentro do túnel. | contador: 6 ✓ |
 
-## Selo (0:45–0:48)
-**Texto na tela:** "✔ Agora, do jeito certo!"
-
-## Etapa 1 — Estudo do solo (0:45–0:54)
-**Imagem:** a sonda perfura até a rocha. Aparecem os rótulos *Solo superficial, Argila, Lençol freático (água), Arenito, Rocha*, e depois a linha tracejada do *Traçado do túnel*.
+**Tela final:** "Túnel concluído!" / "Na 6ª tentativa, ele finalmente aguenta o peso da terra"
 **Narração:**
-> Agora sim: tudo começa com sondagens. Elas revelam cada camada do terreno e também o lençol freático. Com isso, os engenheiros sabem exatamente com o que vão lidar.
-
-## Etapa 2 — Poço de acesso (0:54–1:04)
-**Imagem:** as paredes-diafragma de concreto descem junto com a escavação, e nada desmorona. Rótulo: *Paredes-diafragma*.
-**Narração:**
-> O poço é contido por paredes-diafragma, que seguram o solo durante toda a escavação.
-
-## Etapa 3 — Descida da tuneladora (1:04–1:12)
-**Imagem:** o pórtico desce a TBM até o fundo do poço. Rótulo: *Tuneladora (TBM)*.
-**Narração:**
-> A tuneladora é montada e descida com cuidado até o fundo do poço.
-
-## Etapa 4 — Escavação (1:12–1:27)
-**Imagem:** a cabeça de corte gira, e a terra sai pela esteira. Rótulos: *Cabeça de corte, Escudo de aço, Esteira transportadora*.
-**Narração:**
-> A cabeça de corte tritura o solo, e o escudo de aço sustenta o terreno enquanto a máquina avança.
-
-## Etapa 5 — Revestimento (1:27–1:37)
-**Imagem:** o braço erector monta cada anel, segmento por segmento, com a peça-chave por último. Rótulos: *Braço erector, Anéis de concreto, Macacos hidráulicos*.
-**Narração:**
-> Logo atrás do escudo, o braço erector monta anéis de concreto. Assim o teto nunca fica sem apoio, que foi exatamente o erro da primeira vez.
-
-## Etapa 6 — Injeção e impermeabilização (1:37–1:45)
-**Imagem:** a argamassa brilha atrás dos anéis, e o dreno corre pelo fundo. A TBM chega ao poço de saída. Rótulos: *Argamassa, Dreno*.
-**Narração:**
-> A argamassa sela o espaço atrás dos anéis, e drenos controlam a água do lençol freático. Desta vez a água fica do lado de fora.
-
-## Etapa 7 — Acabamento (1:45–1:53)
-**Imagem:** a TBM é içada. Piso, trilhos, iluminação e ventiladores são instalados. Rótulos: *Iluminação, Trilhos, Ventiladores*.
-**Narração:**
-> A máquina é retirada e entram o piso, os trilhos, a iluminação e a ventilação.
-
-## Etapa 8 — Túnel em operação (1:53–2:09)
-**Imagem:** o primeiro trem atravessa o túnel. Depois a câmera voa por dentro do túnel iluminado. Tela final: "Túnel concluído!"
-**Narração:**
-> E pronto: um túnel seguro, seco e firme. A diferença entre o desastre e o sucesso? Planejamento e engenharia.
+> Sexta tentativa: um escudo de aço segura a terra enquanto a máquina cava, os anéis de concreto entram logo atrás, e a argamassa veda a água. Desta vez o túnel aguenta o peso da terra. Errar faz parte; o importante é aprender com cada erro!
 
 ---
 
 ### Notas de produção
-- **Trilha:** no Ato 1, começa leve e fica tensa a cada erro, com um impacto forte no desabamento (0:30). No Ato 3, a trilha é positiva e cresce até o trem.
-- **Efeitos sonoros:** desmoronamento (0:17), alarme e estrondo (0:30–0:36), água jorrando, fita rebobinando (0:40), sondagem (0:46), encaixe metálico dos segmentos (1:27–1:37), passagem do trem (1:54).
+- **Trilha:** leve e cômica nas tentativas, com tensão crescendo nas setas do peso. No Ato final, a trilha fica heroica.
+- **Efeitos sonoros:** pá cavando, rangido e estalos na fase do peso, estrondo no desabamento, "buzina triste" no carimbo DESABOU!, fita rebobinando, e no final o trem e aplausos.
 - **Ritmo da locução:** cerca de 130 palavras por minuto.

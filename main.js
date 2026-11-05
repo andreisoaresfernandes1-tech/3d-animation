@@ -3,7 +3,7 @@
 // tanto a reprodução no navegador quanto a renderização quadro a quadro em MP4.
 import * as THREE from 'three';
 
-export const DURATION = 129;   // 0–6 abertura · 6–40 jeito errado · 40–45 rebobinar · 45–129 jeito certo
+export const DURATION = 136.5;  // 0–7 abertura · 7–79.5 cinco tentativas que desabam · 79.5–136.5 a tentativa que dá certo
 const W = 1280, H = 720;
 
 // ---------------------------------------------------------------- helpers
@@ -206,9 +206,8 @@ function makeShaft(x0, x1, holeSide) {
     const holeX = holeSide === 'right' ? [x1 - 0.45, x1] : [x0, x0 + 0.45];
     setBox(s.left, solidX[0], solidX[1], -d, top, SZ, 0);
     setBox(s.right[0], holeX[0], holeX[1], Math.max(-d, YC + RB), top, SZ, 0);
-    setBox(s.right[1], holeX[0], holeX[1], -d, Math.min(-d + 100, YC - RB), SZ, 0);
-    if (-d > YC - RB) s.right[1].visible = false;
-    setBox(s.right[2], holeX[0], holeX[1], Math.max(-d, YC - RB), YC + RB, SZ, -RB);
+    setBox(s.right[1], holeX[0], holeX[1], -d, -SD + 0.5, SZ, 0);
+    setBox(s.right[2], holeX[0], holeX[1], Math.max(-d, -SD + 0.5), YC + RB, SZ, -RB);
     if (-d > YC + RB) s.right[2].visible = false;
     setBox(s.floor, x0, x1, -SD, -SD + 0.5, SZ, 0); s.floor.visible = d >= SD - 0.01;
     [s.back, s.left, ...s.right].forEach((m) => { if (d < 0.05 || noWalls) m.visible = false; });
@@ -362,53 +361,106 @@ const train = new THREE.Group(); scene.add(train);
   staticBox(new THREE.MeshBasicMaterial({ color: 0xfff6c8, clippingPlanes: clipTrain }), 0.6, 0.75, b0 + 0.45, b0 + 0.75, -0.9, 0.9, train);
 }
 
-// ---------------------------------------------------------------- objetos do "jeito errado"
+// ---------------------------------------------------------------- objetos das tentativas que dão errado
 const waterMat = new THREE.MeshStandardMaterial({ color: 0x2e86de, transparent: true, opacity: 0.6, roughness: 0.15, metalness: 0.1, depthWrite: false, side: THREE.DoubleSide });
 const aquiferMat = new THREE.MeshBasicMaterial({ color: 0x2f9bff, transparent: true, opacity: 0, depthWrite: false });
-const AQ_TOP = -10.1, AQ_BOT = -12.3; // lençol freático (acima da coroa do túnel)
+const AQ_TOP = -10.1, AQ_BOT = -12.3; // lençol freático
 const aquifer = [[XL, SX0], [SX1, AX0], [AX1, XR]].map(([a, b]) => { const m = staticBox(aquiferMat, a, b, AQ_BOT, AQ_TOP, 0.0, 0.03); m.renderOrder = 4; return m; });
-const tunnelWater = box(waterMat), shaftWater = box(waterMat);
-tunnelWater.renderOrder = shaftWater.renderOrder = 6;
+const tunnelWater = box(waterMat); tunnelWater.renderOrder = 6;
 const rubbleMat = noisyMat(0x4b3420, { speck: 0.3, scale: 2.2, amp: 0.5 });
-const slumps = [
-  { s: V(-37.6, -4.5, -4.5), e: V(-36.6, -SD + 1.3, -5.5), sz: V(1.6, 4.2, 6.5), rz: 1.1, t0: 10.6 },
-  { s: V(-27.5, -6.5, -4.0), e: V(-29.0, -SD + 1.1, -3.5), sz: V(1.5, 4.0, 6.0), rz: -0.8, t0: 10.9 },
-  { s: V(-37.4, -1.5, -2.5), e: V(-35.2, -SD + 2.6, -2.0), sz: V(1.4, 2.6, 3.5), rz: 2.0, t0: 11.25 },
-  { s: V(-27.6, -2.0, -6.5), e: V(-31.0, -SD + 0.8, -6.0), sz: V(1.4, 2.4, 3.5), rz: -1.6, t0: 11.5 },
-].map((d) => { const m = new THREE.Mesh(UNIT, rubbleMat); m.scale.copy(d.sz); scene.add(m); return { ...d, m }; });
-const chimney = (() => { // zona de solo que cedeu (vista no plano de corte)
+const rubbleFill = box(rubbleMat);                      // terra que caiu e encheu o túnel
+const chimney = (() => {                          // solo que cedeu acima do túnel (no plano de corte)
   const sh = new THREE.Shape(), r = rng(11), pts = [];
-  for (let k = 0; k <= 10; k++) pts.push([-1.4 - 0.2 * r() - k * 0.17, k / 10]);
-  for (let k = 10; k >= 0; k--) pts.push([1.4 + 0.2 * r() + k * 0.17, k / 10]);
+  for (let k = 0; k <= 10; k++) pts.push([-1 - 0.12 * r() - k * 0.09, k / 10]);
+  for (let k = 10; k >= 0; k--) pts.push([1 + 0.12 * r() + k * 0.09, k / 10]);
   sh.moveTo(...pts[0]); pts.slice(1).forEach((p) => sh.lineTo(...p));
-  const m = new THREE.Mesh(new THREE.ShapeGeometry(sh), rubbleMat); m.position.set(-10, YC + RB - 0.6, 0.035); m.renderOrder = 5; scene.add(m); return m;
+  const m = new THREE.Mesh(new THREE.ShapeGeometry(sh), rubbleMat); m.position.z = 0.035; m.renderOrder = 5; scene.add(m); return m;
 })();
 const crater = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.7, 0.1, 40), rubbleMat); crater.position.set(-10, 0.27, -6.2); scene.add(crater);
-const N_DEB = 110, N_DROP = 90;
-const debris = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(0.32, 0), rubbleMat, N_DEB); scene.add(debris);
-const drops = new THREE.InstancedMesh(new THREE.SphereGeometry(0.11, 8, 6), new THREE.MeshBasicMaterial({ color: 0x7cc4ff }), N_DROP); scene.add(drops);
+const N_DEB = 120, N_DROP = 80;
+const debris = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(0.3, 0), rubbleMat, N_DEB); scene.add(debris);
+const drops = new THREE.InstancedMesh(new THREE.SphereGeometry(0.09, 8, 6), new THREE.MeshBasicMaterial({ color: 0x7cc4ff }), N_DROP); scene.add(drops);
+
+// túneis cavados à mão (seção redonda ou retangular), piso no fundo do poço
+const FLOOR = -SD + 0.5, HT = 3.2, HW = 1.3, RC = 1.6, YCM = FLOOR + RC;
+function boredMesh(profile) {
+  const L = LAYERS[2], sh = new THREE.Shape(), W2 = -ZB;
+  sh.moveTo(0, L.top); sh.lineTo(W2, L.top); sh.lineTo(W2, L.bot); sh.lineTo(0, L.bot);
+  profile.forEach((p) => sh.lineTo(...p)); sh.lineTo(0, L.top);
+  const g = new THREE.ExtrudeGeometry(sh, { depth: 1, bevelEnabled: false }); g.rotateY(Math.PI / 2);
+  const m = new THREE.Mesh(g, layerMats[2]); m.position.x = SX1; m.visible = false; scene.add(m); return m;
+}
+const roundBore = boredMesh(Array.from({ length: 33 }, (_, k) => { const a = -Math.PI / 2 + (Math.PI * k) / 32, r = RC + (k % 3 ? 0.06 : -0.05) * (k > 0 && k < 32 ? 1 : 0); return [r * Math.cos(a), YCM + r * Math.sin(a)]; }));
+const rectBore = boredMesh([[0, FLOOR], [HW, FLOOR], [HW, FLOOR + HT], [0, FLOOR + HT]]);
+
+// o personagem
+function makeWorker() {
+  const g = new THREE.Group(); scene.add(g);
+  const mt = { vest: std(0xff7a1a, { roughness: 0.6 }), pants: std(0x2c4a7a, { roughness: 0.8 }), skin: std(0xe0ac80, { roughness: 0.7 }),
+    hat: std(0xffd200, { roughness: 0.35, metalness: 0.2 }), boot: std(0x2b2118), wood: std(0x8a5a2b, { roughness: 0.8 }), metal: std(0x9aa1a8, { metalness: 0.8, roughness: 0.3 }) };
+  const limb = (mat, w, h, d, px, py, pz) => { const p = new THREE.Group(); p.position.set(px, py, pz); g.add(p);
+    const m = new THREE.Mesh(UNIT, mat); m.scale.set(w, h, d); m.position.y = -h / 2; p.add(m); return p; };
+  const legL = limb(mt.pants, 0.2, 0.88, 0.2, 0, 0.9, -0.12), legR = limb(mt.pants, 0.2, 0.88, 0.2, 0, 0.9, 0.12);
+  [legL, legR].forEach((l) => { const b = new THREE.Mesh(UNIT, mt.boot); b.scale.set(0.3, 0.12, 0.22); b.position.set(0.05, -0.88, 0); l.add(b); });
+  const torso = new THREE.Mesh(UNIT, mt.vest); torso.scale.set(0.3, 0.62, 0.46); torso.position.y = 1.2; g.add(torso);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), mt.skin); head.position.y = 1.69; g.add(head);
+  const hat = new THREE.Mesh(new THREE.SphereGeometry(0.19, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), mt.hat); hat.position.y = 1.74; g.add(hat);
+  const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.03, 20), mt.hat); brim.position.y = 1.74; g.add(brim);
+  const armL = limb(mt.vest, 0.14, 0.6, 0.14, 0, 1.48, -0.3), armR = limb(mt.vest, 0.14, 0.6, 0.14, 0, 1.48, 0.3);
+  const shovel = new THREE.Group(); shovel.position.set(0, -0.58, 0); armR.add(shovel);
+  const hnd = new THREE.Mesh(UNIT, mt.wood); hnd.scale.set(0.05, 1.1, 0.05); hnd.position.y = -0.3; hnd.rotation.z = 0.6; shovel.add(hnd);
+  const blade = new THREE.Mesh(UNIT, mt.metal); blade.scale.set(0.32, 0.36, 0.05); blade.position.set(0.5, -0.78, 0); blade.rotation.z = 0.6; shovel.add(blade);
+  return { g, legL, legR, armL, armR, shovel, head };
+}
+const worker = makeWorker();
+function poseWorker(mode, tt) {
+  const w = worker; const s = mode === 'run' ? 14 : 7;
+  const sw = mode === 'walk' || mode === 'run' ? Math.sin(tt * s) * (mode === 'run' ? 0.9 : 0.5) : 0;
+  w.legL.rotation.z = sw; w.legR.rotation.z = -sw;
+  w.armL.rotation.z = -sw * 0.8; w.armR.rotation.z = sw * 0.8;
+  w.shovel.visible = mode === 'dig' || mode === 'walk';
+  if (mode === 'dig') { const d = Math.sin(tt * 6); w.armR.rotation.z = 0.9 + 0.6 * d; w.armL.rotation.z = 0.7 + 0.5 * d; }
+  if (mode === 'panic') { w.armL.rotation.x = -2.6 + 0.3 * Math.sin(tt * 20); w.armR.rotation.x = 2.6 - 0.3 * Math.sin(tt * 20); w.armL.rotation.z = w.armR.rotation.z = 0; }
+  else { w.armL.rotation.x = w.armR.rotation.x = 0; }
+  if (mode === 'sad') { w.head.position.y = 1.64; w.armL.rotation.z = w.armR.rotation.z = 0.1; } else w.head.position.y = 1.69;
+  if (mode === 'cheer') { w.armL.rotation.x = -2.8; w.armR.rotation.x = 2.8; }
+}
+
+// escoras de madeira (tentativa 2)
+const woodMat = noisyMat(0x9a6a3a, { speck: 0.05, scale: 4, amp: 0.3 });
+const frames = Array.from({ length: 10 }, () => ({ post: box(woodMat), cap: box(woodMat) }));
+// teto reto de concreto (tentativa 3)
+const flatWall = box(M.concrete);
+const flatRoof = Array.from({ length: 6 }, () => box(M.concrete));
+// arco de tijolos (tentativa 4)
+const brickMat = noisyMat(0xa9472a, { speck: 0.25, scale: 5, amp: 0.35 });
+const brickGeo = (() => { const sh = new THREE.Shape(); sh.absarc(0, 0, RC + 0.04, 0, Math.PI * 2, false);
+  const hole = new THREE.Path(); hole.absarc(0, 0, RC - 0.16, 0, Math.PI * 2, true); sh.holes.push(hole);
+  const g = new THREE.ExtrudeGeometry(sh, { depth: 0.46, bevelEnabled: false, curveSegments: 24 }); g.rotateY(Math.PI / 2); return g; })();
+const bricks = Array.from({ length: 34 }, () => { const m = new THREE.Mesh(brickGeo, brickMat); scene.add(m); return m; });
+// setas do "peso da terra" e trincas
+const arrowMat = new THREE.MeshBasicMaterial({ color: 0xff3b30, transparent: true, opacity: 0, depthTest: false });
+const arrowGeo = (() => { const s = new THREE.Shape(); s.moveTo(-0.28, 3); s.lineTo(0.28, 3); s.lineTo(0.28, 1.1); s.lineTo(0.8, 1.1); s.lineTo(0, 0); s.lineTo(-0.8, 1.1); s.lineTo(-0.28, 1.1); s.lineTo(-0.28, 3);
+  return new THREE.ShapeGeometry(s); })();
+const arrows = Array.from({ length: 3 }, () => { const m = new THREE.Mesh(arrowGeo, arrowMat); m.renderOrder = 10; m.position.z = 0.045; scene.add(m); return m; });
+const crackMat = new THREE.MeshBasicMaterial({ color: 0x140b05, depthTest: false });
+const cracks = Array.from({ length: 3 }, (_, c) => { const r = rng(30 + c), segs = []; let p = V(0, 0, 0.045);
+  for (let k = 0; k < 7; k++) { const q = p.clone().add(V((r() - 0.5) * 1.1, 0.55 + r() * 0.35, 0)); const b = beam(crackMat, p, q, 0.01, 0.09); b.renderOrder = 9; segs.push(b); p = q; }
+  return segs; });
 
 // ---------------------------------------------------------------- legendas / rótulos (DOM)
 const $ = (s) => document.querySelector(s);
 const capEl = $('#caption'), capNum = capEl.querySelector('.num'), capTtl = capEl.querySelector('.ttl'), capSub = capEl.querySelector('.sub');
-const CAPTIONS = [
-  [6, 15, 'Etapa 1', 'Estudo do solo', 'Sondagens revelam as camadas do terreno, e o lençol freático, antes de cavar.'],
-  [15, 25, 'Etapa 2', 'Poço de acesso', 'Agora o poço é contido por paredes de concreto (paredes-diafragma): nada desmorona.'],
-  [25, 33, 'Etapa 3', 'Descida da tuneladora', 'A tuneladora (TBM) é montada e descida por um pórtico até o fundo do poço.'],
-  [33, 48, 'Etapa 4', 'Escavação', 'A cabeça de corte gira e tritura o solo; uma esteira leva o material até a superfície.'],
-  [48, 58, 'Etapa 5', 'Revestimento', 'Atrás do escudo, o braço erector monta anéis de concreto, segmento por segmento: o teto nunca fica sem apoio.'],
-  [58, 66, 'Etapa 6', 'Injeção e impermeabilização', 'Argamassa sela o vazio atrás dos anéis e drenos controlam a água do lençol. A TBM chega ao poço de saída.'],
-  [66, 74, 'Etapa 7', 'Acabamento', 'A tuneladora é retirada. Instalam-se piso, trilhos, iluminação e ventilação.'],
-  [74, 85.5, 'Etapa 8', 'Túnel em operação', 'Pronto! O túnel recebe seus primeiros trens.'],
+const CAPTIONS = [ // tentativa 6 (tempo t da construção correta)
+  [33, 48, 'Tentativa 6', 'Agora vai: tuneladora', 'O escudo de aço segura a terra enquanto a cabeça de corte escava.'],
+  [48, 58, 'Tentativa 6', 'Anéis logo atrás', 'A cada passo, o braço erector monta um anel de concreto. O teto nunca fica sem apoio!'],
+  [58, 66, 'Tentativa 6', 'Selado contra a água', 'Argamassa preenche o vazio atrás dos anéis, e drenos controlam a água. A TBM chega ao outro lado.'],
+  [66, 74, 'Tentativa 6', 'Acabamento', 'A tuneladora sai. Entram piso, trilhos, iluminação e ventilação.'],
+  [74, 85.5, 'Deu certo!', 'Túnel em operação', 'O túnel aguenta o peso da terra e recebe seus primeiros trens.'],
 ];
 const tbmX = (t) => keys(t, [[0, -28], [34, -28], [40, -8, (x) => x * x], [48, 5], [58, 9], [66, AX1 + 0.6, (x) => 1 - (1 - x) * (1 - x)]]);
 const tbmY = (t) => keys(t, [[0, 17], [26, 17], [31.5, YC, ease], [66.2, YC], [68.6, 15, ease]]);
 const LABELS = [
-  ...LAYERS.map((L, i) => ({ t0: 11 + i * 0.35, t1: 15.2, text: L.name, at: () => V(17.5, (L.top + L.bot) / 2, 0.05), off: [70, 0] })),
-  { t0: 12.4, t1: 15.2, text: 'Lençol freático (água)', at: () => V(17.5, (AQ_TOP + AQ_BOT) / 2, 0.05), off: [110, 34] },
-  { t0: 13, t1: 15.2, text: 'Traçado do túnel', at: () => V(-6, YC + RB, 0.05), off: [0, -46] },
-  { t0: 17, t1: 24.6, text: 'Paredes-diafragma', at: () => V(SX0 + 0.25, -6, 0.05), off: [-120, -30] },
-  { t0: 27.5, t1: 32.8, text: 'Tuneladora (TBM)', at: (t) => V(tbmX(t) - 4, tbmY(t) + RS, 0.05), off: [90, -50] },
   { t0: 41, t1: 47.6, text: 'Cabeça de corte', at: (t) => V(tbmX(t) + 0.1, YC + 1.6, 0.05), off: [110, -70] },
   { t0: 41.6, t1: 47.6, text: 'Escudo de aço', at: (t) => V(tbmX(t) - 3.2, YC - RS, 0.05), off: [-60, 70] },
   { t0: 42.2, t1: 47.6, text: 'Esteira transportadora', at: (t) => V(tbmX(t) - 10, YC - 1.05, -1.3), off: [-70, 80] },
@@ -417,21 +469,23 @@ const LABELS = [
   { t0: 50.2, t1: 57.6, text: 'Macacos hidráulicos', at: (t) => V(tbmX(t) - 6.2, YC + 2.5, 0.05), off: [140, -40] },
   { t0: 60, t1: 65.6, text: 'Argamassa', at: () => V(-10, YC + 3.03, 0.05), off: [0, -60] },
   { t0: 60.6, t1: 65.6, text: 'Dreno', at: () => V(-16, YC - 2.45, 0.05), off: [0, 60] },
+  { t0: 60.6, t1: 65.6, text: 'Lençol freático', at: () => V(14, (AQ_TOP + AQ_BOT) / 2, 0.05), off: [80, -50] },
   { t0: 69, t1: 73.6, text: 'Iluminação', at: () => V(SX1 + 2 + 3 * 8, YC + 2.25, -1.2), off: [-60, -70] },
   { t0: 69.5, t1: 73.6, text: 'Trilhos', at: () => V(10, SLAB_Y + 0.15, 0.05), off: [60, 70] },
   { t0: 70.5, t1: 73.6, text: 'Ventiladores', at: () => V(6, YC + 2.0, 0.05), off: [80, -80] },
 ];
-const W_LABELS = [
-  ...LAYERS.map((L, i) => ({ t0: 1.6 + i * 0.3, t1: 5.8, text: '?', at: () => V(-2 + i * 3, (L.top + L.bot) / 2, 0.05), off: [0, 0] })),
-  { t0: 7.4, t1: 10.6, text: 'Sem paredes de contenção', at: () => V(SX1, -5, 0.05), off: [140, -40] },
-  { t0: 11.6, t1: 13.8, text: 'Desmoronamento', at: () => V(-33, -SD + 2, 0.05), off: [150, -50] },
-  { t0: 20.5, t1: 24.4, text: 'Sem anéis de concreto!', at: (w) => V(wXf(w) - 15, YC + RB, 0.05), off: [-20, -70] },
-  { t0: 26.0, t1: 29.9, text: 'Lençol freático', at: () => V(6, (AQ_TOP + AQ_BOT) / 2, 0.05), off: [110, 46] },
-  { t0: 27.0, t1: 29.9, text: 'Inundação', at: () => V(-21, YC - 1.5, 0.05), off: [-60, 70] },
-  { t0: 28.4, t1: 29.9, text: 'Cratera na rua', at: () => V(-10, 0.4, -1), off: [130, -50] },
+// rótulos das tentativas (tempo a, local da tentativa); "k" = tentativas em que aparece
+const A_LABELS = [
+  { k: [1, 2, 3, 4, 5], t0: 6.2, t1: 8.6, text: 'Peso da terra', at: (a, A) => V(A.cx, A.crown + 4.2, 0.05), off: [120, -30] },
+  { k: [1], t0: 3, t1: 6, text: 'Buraco sem apoio', at: (a, A) => V(A.front - 4, A.crown, 0.05), off: [-40, -70] },
+  { k: [2], t0: 3, t1: 6, text: 'Escoras de madeira', at: (a, A) => V(SX1 + 2.7, FLOOR + 1.5, -1.15), off: [-60, -90] },
+  { k: [3], t0: 3, t1: 6, text: 'Teto reto', at: (a, A) => V(A.front - 5, FLOOR + HT, 0.05), off: [-40, -80] },
+  { k: [4], t0: 3, t1: 6, text: 'Arco de tijolos', at: (a, A) => V(A.front - 5, YCM + RC, 0.05), off: [-40, -80] },
+  { k: [4], t0: 6.4, t1: 8.6, text: 'Água infiltrando', at: (a, A) => V(A.cx - 3, AQ_BOT, 0.05), off: [-130, -40] },
+  { k: [5], t0: 3.5, t1: 8.6, text: 'Trecho sem anéis', at: (a, A) => V(A.cx, A.crown, 0.05), off: [0, -80] },
 ];
 const labelsEl = $('#labels');
-[...LABELS, ...W_LABELS].forEach((L) => {
+[...LABELS, ...A_LABELS].forEach((L) => {
   const el = document.createElement('div'); el.className = 'lbl';
   el.innerHTML = `<div class="line"></div><div class="dot"></div><div class="txt">${L.text}</div>`; labelsEl.appendChild(el);
   L.el = el; L.line = el.querySelector('.line'); L.txt = el.querySelector('.txt');
@@ -442,12 +496,8 @@ const labelsEl = $('#labels');
 
 // ---------------------------------------------------------------- câmera
 const Pq = (p, q) => ({ p, q });
-const SHOTS = [
-  { s: 0, b: 0, f: (t) => Pq(V(lerp(0, 4, ease(t / 7)), lerp(24, 8, ease(t / 7)), lerp(88, 64, ease(t / 7))), V(0, -10, -6)) },
-  { s: 6, b: 2.2, f: (t) => Pq(V(lerp(13, 9, seg(t, 6, 15)), 0, 56), V(10, -15, -4)) },
-  { s: 15, b: 2.2, f: (t) => Pq(V(lerp(-25, -30, seg(t, 15, 25)), 1, 45), V(-32, -6, -5)) },
-  { s: 25, b: 1.8, f: (t) => Pq(V(lerp(-21, -24, seg(t, 25, 33)), 2, 36), V(-31, -5, -4)) },
-  { s: 33, b: 2, f: (t) => { const x = tbmX(t); return Pq(V(x + 3, -8.5, 25), V(x - 4, -15, -2)); } },
+const SHOTS = [ // tentativa 6
+  { s: 33, b: 0, f: (t) => { const x = tbmX(t); return Pq(V(x + 3, -8.5, 25), V(x - 4, -15, -2)); } },
   { s: 40, b: 2, f: (t) => { const x = tbmX(t); return Pq(V(x + 6.5, -12.5, 10.5), V(x - 1.2, -15.5, -1)); } },
   { s: 48, b: 2, f: (t) => { const x = tbmX(t); return Pq(V(x - 3.6, -13, 11.5), V(x - 8.4, -15.4, -1.5)); } },
   { s: 58, b: 2.4, f: (t) => Pq(V(lerp(2, 6, seg(t, 58, 66)), -3, 66), V(4, -13, -4)) },
@@ -463,86 +513,6 @@ function camAt(t, shots = SHOTS, from = null) {
     if (w < 1) { const pr = i > 0 ? shots[i - 1].f(t) : from; cur.p.lerpVectors(pr.p, cur.p, w); cur.q.lerpVectors(pr.q, cur.q, w); }
   }
   return cur;
-}
-
-// ---------------------------------------------------------------- "jeito errado": estado em função de w (0–34 s)
-const wXf = (w) => keys(w, [[0, -28], [18.2, -28], [19.8, -25, (x) => x * x], [24.8, 0]]);
-const wTy = (w) => keys(w, [[0, 17], [14, 17], [17.6, YC, ease]]);
-const W_CAPTIONS = [
-  [0.2, 6, 'Erro 1', 'Pular o estudo do solo', 'Começam a obra sem sondagens. Ninguém sabe o que existe no subsolo…'],
-  [6, 14, 'Erro 2', 'Poço sem contenção', 'Cavam o poço sem paredes de concreto, e as laterais desmoronam.'],
-  [14, 24.7, 'Erro 3', 'Escavar sem revestimento', 'A tuneladora avança, mas ninguém instala os anéis de concreto.'],
-  [24.7, 30.2, 'Resultado', 'Desastre!', 'A água do subsolo invade o túnel, o teto cede e abre uma cratera na rua.'],
-];
-const W_SHOTS = [
-  { s: 0, b: 2.2, f: (w) => Pq(V(lerp(4, -4, seg(w, 0, 6)), 3, 60), V(-2, -13, -5)) },
-  { s: 6, b: 2, f: (w) => Pq(V(lerp(-26, -29, seg(w, 6, 14)), 0, 42), V(-32, -7, -5)) },
-  { s: 14, b: 1.6, f: (w) => Pq(V(-23, 1, 36), V(-31, -7, -4)) },
-  { s: 18, b: 1.8, f: (w) => { const x = wXf(w); return Pq(V(x + 1, -8, 27), V(x - 6, -14.5, -2)); } },
-  { s: 24.6, b: 1.2, f: (w) => Pq(V(-9, lerp(-3, 3, seg(w, 26, 29.5)), 44), V(-10, -8.5, -4)) },
-  { s: 30, b: 2, f: (w) => Pq(V(-8, -1, 60), V(-8, -10, -4)) },
-];
-const titleShot = (T) => SHOTS[0].f(T);
-
-function wrongOverrides(w) {
-  const tt = 6 + w;                       // tempo "de animação" (carros, braços) — volta junto no rebobinar
-  const dig = w > 6.5 && w < 11.2;
-  const beltOn = w > 18.4 && w < 24.8;
-  return {
-    tt, xf: wXf(w), ty: wTy(w), dS: SD * ease(seg(w, 6.5, 11)), dA: 0, noWalls: true, noRings: true,
-    rig: false, outline: 0, crane: w > 5.6 && w < 18.2, dig, lowering: w > 14 && w < 17.9,
-    pile: 0.2 + 0.45 * seg(w, 6.5, 11) + 0.3 * seg(w, 18.4, 24.8), pileOn: w > 6.6, truck: w > 6,
-    aquifer: 0.45 * seg(w, 25.5, 26.6), tbmOn: w > 13.8, cut: -2.4 * Math.max(0, Math.min(w, 24.8) - 18.2), gantry: w > 18, belt: beltOn, chunks: beltOn,
-    chunkT: tt,
-  };
-}
-
-function updateWrongExtras(w, active) {
-  const on = (v) => active && v;
-  // desmoronamento das laterais do poço
-  slumps.forEach((d) => {
-    const u = seg(w, d.t0, d.t0 + 1.1);
-    d.m.visible = on(w > d.t0);
-    d.m.position.lerpVectors(d.s, d.e, u * u); d.m.rotation.set(0, 0, d.rz * u);
-  });
-  // água no túnel e no poço
-  const lvl = lerp(YC - RB, YC + RB - 0.15, ease(seg(w, 25, 29.5)));
-  setBox(tunnelWater, SX1, wXf(w) - 0.3, YC - RB, lvl, -RB, 0.03); tunnelWater.visible = on(w > 25.05);
-  setBox(shaftWater, SX0, SX1, -SD, lerp(-SD, YC + 0.5, ease(seg(w, 25.4, 30))), SZ, 0.03); shaftWater.visible = on(w > 25.5);
-  // chaminé de colapso e cratera
-  const ch = ease(seg(w, 25.6, 28.4));
-  chimney.visible = on(ch > 0); chimney.scale.set(lerp(0.6, 1, ch), Math.max(0.01, ch * (-(YC + RB) + 0.9)), 1);
-  const cr = ease(seg(w, 27.6, 28.9));
-  crater.visible = on(cr > 0); crater.scale.set(Math.max(0.01, cr * 6.4), 1, Math.max(0.01, cr * 6.4));
-  // carro que cai na cratera
-  const car = cars[1];
-  if (active) {
-    const x = Math.min(-10.4, -40 + 6.2 * (w - 23.5)), sink = ease(seg(w, 28.5, 29.6));
-    car.g.visible = x > -53;
-    car.g.position.set(x, 0.24 - 1.6 * sink, -11.4); car.g.rotation.set(0.5 * sink, 0, -0.45 * sink);
-  } else car.g.visible = true;
-  // detritos caindo do teto
-  for (let i = 0; i < N_DEB; i++) {
-    const ts = 25.4 + (i / N_DEB) * 3.6, dt = w - ts;
-    if (!active || dt < 0) tmpObj.scale.setScalar(0);
-    else {
-      const x0 = -10 + (((i * 53) % 100) / 100 - 0.5) * 6, z0 = -0.3 - ((i * 31) % 100) / 100 * 2.4;
-      const floor = YC - RB + 0.35 + ((i * 17) % 10) / 10 * 1.2 * Math.min(1, (w - 25.4) / 3);
-      const y = Math.max(floor, YC + RB - 0.3 - 0.5 * 22 * dt * dt);
-      tmpObj.position.set(x0, y, z0); tmpObj.rotation.set(i + dt * 3, i * 2, i * 0.7); tmpObj.scale.setScalar(0.7 + ((i * 7) % 5) * 0.15);
-    }
-    tmpObj.updateMatrix(); debris.setMatrixAt(i, tmpObj.matrix);
-  }
-  debris.instanceMatrix.needsUpdate = true; debris.visible = active && w > 25.3;
-  // jatos de água pelas trincas
-  for (let i = 0; i < N_DROP; i++) {
-    const ph = (((w * 1.4 + i * 0.137) % 1) + 1) % 1;
-    const x0 = -24 + ((i * 41) % 100) / 100 * 22, y = YC + RB - 0.1 - ph * 2 * RB;
-    if (!active || w < 24.7 || w > 30.5 || y < lvl) tmpObj.scale.setScalar(0);
-    else { tmpObj.position.set(x0, y, -0.4 - ((i * 29) % 10) / 10 * 1.5); tmpObj.rotation.set(0, 0, 0); tmpObj.scale.set(1, 2.2, 1); }
-    tmpObj.updateMatrix(); drops.setMatrixAt(i, tmpObj.matrix);
-  }
-  drops.instanceMatrix.needsUpdate = true; drops.visible = active && w > 24.6;
 }
 
 // ---------------------------------------------------------------- cena (t = tempo do "jeito certo"; ov = substituições)
@@ -604,7 +574,7 @@ function updateScene(t, ov = {}) {
   gantries.position.copy(tbm.position);
 
   // anéis
-  const P = ov.noRings ? -1e9 : (tail - SX1) / RW + 1;
+  const P = ov.noRings ? -1e9 : (tail - o('ringLag', 0) - SX1) / RW + 1;
   let eAng = Math.PI / 2, eR = 1.6;
   rings.forEach((r, k) => {
     const f = clamp(P - k, 0, 1);
@@ -666,7 +636,7 @@ function updateScene(t, ov = {}) {
   train.visible = t > 74.6 && t < 80.5; train.position.x = keys(t, [[0, -60], [74.6, SX1 - 1], [80.5, AX0 + 24]]);
 
   // carros na superfície
-  cars.forEach((c) => { const x = ((((c.off + tt * c.speed) % 104) + 104) % 104) - 52; c.g.position.set(c.lane ? x : -x, 0.24, c.lane ? -11.6 : -13.4); c.g.rotation.set(0, c.lane ? 0 : Math.PI, 0); });
+  cars.forEach((c) => { c.g.visible = true; const x = ((((c.off + tt * c.speed) % 104) + 104) % 104) - 52; c.g.position.set(c.lane ? x : -x, 0.24, c.lane ? -11.6 : -13.4); c.g.rotation.set(0, c.lane ? 0 : Math.PI, 0); });
 
   // vista interna (sem corte)
   const inside = t >= 80.5;
@@ -674,68 +644,252 @@ function updateScene(t, ov = {}) {
   camLight.intensity = inside ? 60 : 0;
 }
 
+
+// ---------------------------------------------------------------- as 5 tentativas que desabam (tempo local a: 0–12.5 s)
+const A_DUR = 12.5, RWD = 2, INTRO = 7, T_S = INTRO + 5 * (A_DUR + RWD);
+const DIG = [0.8, 6.2], STRESS = 6.2, RUN = [7.6, 8.6], FALL = 8.6, VERDICT = 10.4;
+const ATT = [
+  { k: 1, kind: 'round', title: 'Só cavar', dig: 'O cara cava um buraco debaixo da terra com uma pá.', stress: 'Mas a terra em cima pesa toneladas…',
+    verdict: 'Sem nenhum apoio, o teto não aguenta o peso e desaba.', hi: 'É só cavar!', bubble: 'Ops…' },
+  { k: 2, kind: 'rect', sup: 'wood', title: 'Escoras de madeira', dig: 'Agora ele escora o túnel com vigas de madeira.', stress: 'O peso da terra esmaga as escoras…',
+    verdict: 'Madeira fina não aguenta tanta terra: as escoras quebram.', hi: 'Agora com escoras!', bubble: 'De novo?!' },
+  { k: 3, kind: 'rect', sup: 'flat', title: 'Teto reto de concreto', dig: 'Paredes e teto de concreto, tudo bem reto.', stress: 'Num teto reto, o peso se concentra no meio…',
+    verdict: 'O teto reto racha. Formas redondas distribuem muito melhor o peso!', hi: 'Concreto resolve!', bubble: 'Hmm…' },
+  { k: 4, kind: 'round', sup: 'brick', title: 'Arco de tijolos', dig: 'Um túnel redondo de tijolos: o arco distribui o peso.', stress: 'Mas a água do subsolo infiltra e amolece a terra…',
+    verdict: 'Sem vedação, a água lava a areia e o arco cede.', hi: 'Redondo é mais forte!', bubble: 'Não acredito!' },
+  { k: 5, kind: 'tbm', title: 'Tuneladora', dig: 'Uma tuneladora escava, mas os anéis de concreto ficam muito para trás.', stress: 'O trecho sem anéis fica sem nenhum apoio…',
+    verdict: 'Entre a máquina e os anéis, o túnel desaba.', hi: 'Com máquina vai!', bubble: 'Quase!' },
+];
+function attState(A, a) {
+  if (A.kind === 'tbm') {
+    const xf = keys(a, [[0, -28], [DIG[0], -28], [DIG[1] + 0.2, 2, ease]]), tail = xf - TBM_LEN;
+    return { xf, front: xf, crown: YC + RB, floorY: YC - RB, zw: RB + 0.05, cx: tail - 4.5, hl: 4.5, cxv: -14 };
+  }
+  const front = SX1 + 16 * ease(seg(a, DIG[0], DIG[1]));
+  const crown = A.kind === 'round' ? YCM + RC : FLOOR + HT;
+  return { front, crown, floorY: FLOOR, zw: HW + 0.35, cx: SX1 + 9, hl: 4, cxv: SX1 + 7 };
+}
+function attShots(A) {
+  const s0 = A.kind === 'tbm'
+    ? (a) => { const x = attState(A, a).xf; return Pq(V(x + 3, -8.5, 25), V(x - 4, -15, -2)); }
+    : (a) => { const xw = workerX(A, a); return Pq(V(xw + 1.5, FLOOR + 2.4, 10.5), V(xw - 0.5, FLOOR + 1.0, -0.8)); };
+  const c = attState(A, 0).cxv;
+  return [
+    { s: 0, b: 1.5, f: s0 },
+    { s: STRESS, b: 1.6, f: () => Pq(V(c, -9, 28), V(c, -14.5, -3)) },
+    { s: 8.4, b: 1.2, f: () => Pq(V(c - 1, -3, 44), V(c - 1, -9, -4)) },
+    { s: VERDICT, b: 1.5, f: () => Pq(V(c - 5, -12, 22), V(c - 6, -16.5, -2)) },
+  ];
+}
+ATT.forEach((A) => (A.shots = attShots(A)));
+function workerX(A, a) {
+  if (A.kind === 'tbm') return -36.6;
+  const st = attState(A, a);
+  if (a < DIG[0]) return lerp(-33.5, SX1 + 0.3, ease(a / DIG[0]));
+  if (a < RUN[0]) return Math.max(SX1 + 0.3, st.front - 0.9);
+  return lerp(st.front - 0.9, -34, ease(seg(a, RUN[0], RUN[1])));
+}
+function workerPose(A, a, tt) {
+  const tbm = A.kind === 'tbm';
+  let mode = 'idle', face = 0;
+  if (!tbm && a < DIG[0]) mode = 'walk';
+  else if (!tbm && a < RUN[0]) mode = 'dig';
+  else if (!tbm && a < RUN[1]) { mode = 'run'; face = Math.PI; }
+  if (a >= RUN[1] - (tbm ? 0.6 : 0) && a < VERDICT) mode = 'panic';
+  if (a >= VERDICT) mode = 'sad';
+  worker.g.visible = true;
+  worker.g.position.set(workerX(A, a), FLOOR, tbm ? -6.5 : A.kind === 'round' ? -0.35 : -0.7);
+  worker.g.rotation.y = face; poseWorker(mode, tt);
+}
+
+function hideAttemptExtras() {
+  [rubbleFill, chimney, crater, tunnelWater, debris, drops, roundBore, rectBore, flatWall, ...flatRoof, ...bricks, ...arrows].forEach((m) => (m.visible = false));
+  frames.forEach((f) => (f.post.visible = f.cap.visible = false));
+  cracks.flat().forEach((m) => (m.visible = false));
+}
+
+function updateAttempt(A, a, tt) {
+  const st = attState(A, a), { cx, hl, crown, floorY } = st;
+  const stress = seg(a, STRESS, 8.4), c1 = ease(seg(a, FALL, 9.5));
+  hideAttemptExtras();
+  // túnel cavado à mão
+  if (A.kind !== 'tbm') {
+    const bm = A.kind === 'round' ? roundBore : rectBore, len = st.front - SX1;
+    bm.visible = len > 0.01; bm.scale.x = Math.max(0.001, len);
+    setBox(soil[2].mid, st.front, AX0, LAYERS[2].bot, LAYERS[2].top, ZB, 0);
+  }
+  const inZone = (x) => Math.abs(x - cx) < hl + 0.3;
+  // apoios de cada tentativa
+  if (A.sup === 'wood') frames.forEach((f, i) => {
+    const x = SX1 + 1.0 + i * 1.7; if (x > st.front - 1.2) return;
+    const fall = inZone(x) ? c1 : 0, sgn = i % 2 ? 1 : -1;
+    setBox(f.post, x - 0.09, x + 0.09, FLOOR, FLOOR + HT - 0.25, -1.29, -1.11); f.post.rotation.z = sgn * (0.13 * stress + 1.2 * fall); f.post.position.y -= 1.1 * fall;
+    setBox(f.cap, x - 0.11, x + 0.11, FLOOR + HT - 0.25, FLOOR + HT, -HW, 0.04); f.cap.position.y -= 0.22 * stress + 1.8 * fall; f.cap.rotation.z = sgn * 0.5 * fall;
+  });
+  if (A.sup === 'flat' && st.front > SX1 + 1.5) {
+    const x1 = st.front - 0.8; setBox(flatWall, SX1, x1, FLOOR, FLOOR + HT - 0.35, -HW - 0.2, -HW);
+    flatRoof.forEach((m, j) => {
+      const a0 = lerp(SX1, x1, j / 6), a1 = lerp(SX1, x1, (j + 1) / 6), mid = (a0 + a1) / 2, sag = Math.sin(Math.PI * (j + 0.5) / 6);
+      setBox(m, a0 + 0.02, a1 - 0.02, FLOOR + HT - 0.35, FLOOR + HT, -HW - 0.2, 0.04);
+      m.position.y -= 0.45 * stress * sag + (inZone(mid) ? 2.2 * c1 : 0); m.rotation.z = (j < 3 ? -1 : 1) * (0.06 * stress * sag + (inZone(mid) ? 0.5 * c1 : 0));
+    });
+  }
+  if (A.sup === 'brick') bricks.forEach((m, i) => {
+    const x = SX1 + i * 0.48; if (x + 0.48 > st.front - 1.0) return;
+    m.visible = true; const fall = inZone(x) ? c1 : 0;
+    m.position.set(x, YCM - 1.3 * fall, 0); m.rotation.set(0, 0, (i % 2 ? 1 : -1) * (0.02 * stress * Math.sin(tt * 30) + 0.6 * fall));
+  });
+  // água (tentativa 4)
+  if (A.sup === 'brick') {
+    setBox(tunnelWater, SX1, st.front, FLOOR, FLOOR + 0.6 * seg(a, 6.6, 9), -HW, 0.03); tunnelWater.visible = a > 6.6;
+    for (let i = 0; i < N_DROP; i++) {
+      const ph = (((a * 0.9 + i * 0.173) % 1) + 1) % 1, x0 = cx - 6 + ((i * 41) % 100) / 100 * 12;
+      const y = AQ_BOT - ph * (AQ_BOT - FLOOR);
+      if (a < 6.2 || a > 9.6) tmpObj.scale.setScalar(0);
+      else { tmpObj.position.set(x0, y, 0.04); tmpObj.rotation.set(0, 0, 0); tmpObj.scale.set(1, 2.4, 1); }
+      tmpObj.updateMatrix(); drops.setMatrixAt(i, tmpObj.matrix);
+    }
+    drops.instanceMatrix.needsUpdate = true; drops.visible = a > 6.2 && a < 9.6;
+  }
+  // setas do peso da terra e trincas
+  const ar = fadeIO(a, STRESS, 9.4, 0.4); arrowMat.opacity = 0.9 * ar;
+  arrows.forEach((m, i) => { m.visible = ar > 0; const s = 0.8 + 0.5 * stress;
+    m.scale.setScalar(s); m.position.set(cx + (i - 1) * 3.2, crown + 0.6 + 0.35 * Math.abs(Math.sin(tt * 5 + i)), 0.045); });
+  const cr = seg(a, 6.6, 8.5);
+  cracks.forEach((segs, c) => segs.forEach((b, k) => {
+    b.visible = a < 9.2 && k / segs.length < cr;
+    if (k === 0) segs.forEach((bb) => bb.userData.base || (bb.userData.base = bb.position.clone()));
+    b.position.copy(b.userData.base).add(V(cx + (c - 1) * 2.4, crown + 0.1, 0));
+  }));
+  // desabamento
+  if (a > FALL) {
+    setBox(rubbleFill, cx - hl, cx + hl, floorY, lerp(floorY, crown + 0.05, c1), -st.zw, 0.04); rubbleFill.visible = c1 > 0.01;
+    const ch = ease(seg(a, 8.8, 10));
+    chimney.visible = ch > 0; chimney.position.set(cx, crown - 0.2, 0.035);
+    chimney.scale.set(hl * 0.85, Math.max(0.01, ch * (0.4 - crown)), 1);
+    const crt = ease(seg(a, 9.7, 10.4)); crater.visible = crt > 0;
+    crater.position.set(cx, 0.27, -6.2); crater.scale.set(Math.max(0.01, crt * 6), 1, Math.max(0.01, crt * 6));
+    for (let i = 0; i < N_DEB; i++) {
+      const ts = FALL + (i / N_DEB) * 1.4, dt = a - ts;
+      if (dt < 0) tmpObj.scale.setScalar(0);
+      else {
+        const x0 = cx + (((i * 53) % 100) / 100 - 0.5) * 2 * hl, z0 = -0.2 - ((i * 31) % 100) / 100 * (st.zw - 0.4);
+        const y = Math.max(lerp(floorY, crown, c1) + 0.2, crown - 0.2 - 11 * dt * dt);
+        tmpObj.position.set(x0, y, z0); tmpObj.rotation.set(i + dt * 3, i * 2, i * 0.7); tmpObj.scale.setScalar(0.7 + ((i * 7) % 5) * 0.15);
+      }
+      tmpObj.updateMatrix(); debris.setMatrixAt(i, tmpObj.matrix);
+    }
+    debris.instanceMatrix.needsUpdate = true; debris.visible = true;
+  }
+  // carro que cai na cratera (só na primeira vez)
+  const car = cars[1];
+  if (A.k === 1) {
+    const x = Math.min(cx, cx - 34 + 6.2 * (a - 4.5)), sink = ease(seg(a, 10.0, 10.9));
+    car.g.visible = x > XL; car.g.position.set(x, 0.24 - 1.6 * sink, -11.4); car.g.rotation.set(0.5 * sink, 0, -0.45 * sink);
+  }
+}
+
+function attemptOverrides(A, a, tt) {
+  const tbm = A.kind === 'tbm', st = attState(A, a), dig = a > DIG[0] && a < FALL;
+  return {
+    tt, crane: false, dig: false, rig: false, outline: 0, lowering: false, pileOn: true, pile: 0.75, truck: true,
+    aquifer: A.k >= 5 ? 0.4 : A.k === 4 ? 0.45 * seg(a, 6.0, 6.8) : 0,
+    xf: tbm ? st.xf : -28, tbmOn: tbm, gantry: tbm, cut: tbm ? -2.4 * Math.max(0, Math.min(a, DIG[1]) - DIG[0]) : 0,
+    belt: tbm && dig, chunks: tbm && a > DIG[0] + 0.5 && a < DIG[1] + 0.3, chunkT: tt, noRings: !tbm, ringLag: 9,
+  };
+}
+
 // ---------------------------------------------------------------- DOM
 const setOp = (sel, v) => { $(sel).style.opacity = v; };
-function showCaption(list, time, bad) {
-  const cap = list.find((k) => time >= k[0] && time < k[1]);
-  capEl.classList.toggle('bad', !!bad);
-  if (!cap) { capEl.style.opacity = 0; return; }
-  capNum.textContent = cap[2]; capTtl.textContent = cap[3]; capSub.textContent = cap[4];
-  const a = fadeIO(time, cap[0] + 0.2, cap[1], 0.6); capEl.style.opacity = a; capEl.style.transform = `translateX(${(1 - a) * -24}px)`;
+function showCaption(cap, a = 1) {
+  if (!cap || a <= 0) { capEl.style.opacity = 0; return; }
+  capEl.classList.toggle('bad', !!cap.bad);
+  capNum.textContent = cap.num; capTtl.textContent = cap.ttl; capSub.textContent = cap.sub;
+  capEl.style.opacity = a; capEl.style.transform = `translateX(${(1 - a) * -24}px)`;
 }
-function showLabels(list, time, active) {
+function showLabels(list, time, active, A, st) {
   list.forEach((L) => {
-    const a = active ? fadeIO(time, L.t0, L.t1, 0.5) : 0;
+    const a = active && (!L.k || L.k.includes(A.k)) ? fadeIO(time, L.t0, L.t1, 0.5) : 0;
     if (a <= 0) { L.el.style.opacity = 0; return; }
-    const p = L.at(time).project(camera);
+    const p = L.at(time, st).project(camera);
     L.el.style.opacity = p.z < 1 ? a : 0;
     L.el.style.transform = `translate(${(p.x * 0.5 + 0.5) * W}px, ${(-p.y * 0.5 + 0.5) * H}px)`;
   });
 }
-const summaryItems = [...document.querySelectorAll('#summary li')];
+const toScreen = (v) => { const p = v.clone().project(camera); return [(p.x * 0.5 + 0.5) * W, (-p.y * 0.5 + 0.5) * H]; };
+const bubbleEl = $('#bubble'), tryEls = [...document.querySelectorAll('#tries i')];
+function showTries(k, failedCur, success) {
+  tryEls.forEach((el, i) => {
+    const n = i + 1;
+    el.className = success && n === 6 ? 'ok' : n < k || (n === k && failedCur) ? 'bad' : n === k ? 'cur' : '';
+    el.textContent = success && n === 6 ? '✓' : el.className === 'bad' ? '✗' : String(n);
+  });
+}
 
 // ---------------------------------------------------------------- quadro (T = tempo global do vídeo)
-const W0 = 6, W1 = 40, RW1 = 45, T_OFF = RW1 - 6; // jeito certo: t = T - 39
 function frame(T) {
-  let mode, t = 0, w = 0, cam;
-  if (T < W0) { mode = 'title'; t = T; }
-  else if (T < W1) { mode = 'wrong'; w = T - W0; }
-  else if (T < RW1) { mode = 'rewind'; w = 34 * (1 - ease((T - W1) / (RW1 - W1))); }
-  else { mode = 'right'; t = T - T_OFF; }
-  const wrong = mode === 'wrong' || mode === 'rewind';
+  let cam, A = null, a = 0, mode, t = 33;
+  if (T < INTRO) { mode = 'intro'; A = ATT[0]; a = 0; }
+  else if (T < T_S) {
+    const u = T - INTRO, i = Math.floor(u / (A_DUR + RWD)), r = u - i * (A_DUR + RWD);
+    A = ATT[i];
+    if (r < A_DUR) { mode = 'try'; a = r; } else { mode = 'rewind'; a = A_DUR * (1 - ease((r - A_DUR) / RWD)); }
+  } else { mode = 'win'; t = 33 + (T - T_S); }
 
-  if (wrong) {
-    updateScene(0, wrongOverrides(w));
-    updateWrongExtras(w, true);
-    cam = camAt(w, W_SHOTS, titleShot(W0 + w));
-    const shake = 0.35 * fadeIO(w, 10.7, 12.6, 0.3) + 0.5 * fadeIO(w, 25, 29.8, 0.4);
-    cam.p.add(V(Math.sin(w * 47) * shake, Math.sin(w * 31 + 1) * shake, 0));
+  if (A) {
+    const tt = 33 + a + (mode === 'intro' ? T - INTRO : 0);
+    updateScene(33, attemptOverrides(A, a, tt));
+    updateAttempt(A, a, tt);
+    workerPose(A, a, tt);
+    const prev = A.k > 1 ? ATT[A.k - 2].shots[0].f(0) : null;
+    cam = camAt(a, A.shots, prev);
+    if (mode === 'intro') {
+      const u = ease(seg(T, 1.5, INTRO));
+      cam.p.lerpVectors(V(0, 24, 88), cam.p, u); cam.q.lerpVectors(V(0, -10, -6), cam.q, u);
+    }
+    const shake = 0.45 * fadeIO(a, FALL, 10.3, 0.3);
+    cam.p.add(V(Math.sin(a * 47) * shake, Math.sin(a * 31 + 1) * shake, 0));
   } else {
-    updateScene(t);
-    updateWrongExtras(0, false);
-    cam = camAt(t);
+    updateScene(t, { crane: false, tt: t });
+    hideAttemptExtras();
+    worker.g.visible = t < 40; worker.g.position.set(-36.6, FLOOR, -6.5); worker.g.rotation.y = 0; poseWorker(t > 34 ? 'cheer' : 'idle', t);
+    cam = camAt(t, SHOTS, T_S > 0 ? ATT[4].shots[0].f(0) : null);
   }
   camera.position.copy(cam.p); camera.lookAt(cam.q); camera.updateMatrixWorld();
 
   // DOM
-  const playing = mode === 'wrong';
-  setOp('#title', mode === 'title' ? fadeIO(T, 0.3, 6.3, 0.8) : 0);
-  if (wrong) showCaption(W_CAPTIONS, playing ? w : -1, true); else showCaption(CAPTIONS, t, false);
-  showLabels(LABELS, t, mode === 'right');
-  showLabels(W_LABELS, w, playing);
-  setOp('#alarm', playing ? (0.55 + 0.3 * Math.sin(w * 9)) * Math.max(fadeIO(w, 25, 30.4, 0.5), 0.6 * fadeIO(w, 10.8, 12.4, 0.3)) : 0);
-  const al = playing ? fadeIO(w, 25.6, 29.6, 0.3) : 0;
-  setOp('#alert', al); $('#alert').style.transform = `scale(${1 + 0.06 * Math.sin(w * 10)})`;
-  setOp('#summary', playing ? fadeIO(w, 30.3, 34.2, 0.5) : 0);
-  summaryItems.forEach((li, i) => (li.style.opacity = seg(w, 31 + i * 0.7, 31.4 + i * 0.7)));
-  const rw = mode === 'rewind' ? Math.min(seg(T, W1, W1 + 0.25), 1 - seg(T, RW1 - 0.3, RW1)) : 0;
-  setOp('#rewind', rw);
+  const trying = mode === 'try';
+  setOp('#title', mode === 'intro' ? fadeIO(T, 0.3, INTRO - 0.2, 0.8) : 0);
+  if (trying) {
+    const sub = a < STRESS ? A.dig : a < VERDICT ? A.stress : A.verdict;
+    showCaption({ num: `Tentativa ${A.k}`, ttl: A.title, sub, bad: a >= FALL }, fadeIO(a, 0.2, A_DUR, 0.5));
+  } else if (mode === 'win') {
+    const c = CAPTIONS.find((k) => t >= k[0] && t < k[1]);
+    showCaption(c && { num: c[2], ttl: c[3], sub: c[4] }, c ? fadeIO(t, c[0] + 0.2, c[1], 0.6) : 0);
+  } else showCaption(null);
+  showLabels(LABELS, t, mode === 'win');
+  showLabels(A_LABELS, a, trying, A || ATT[0], A && attState(A, a));
+  // carimbo, balão, contador
+  const stp = trying ? fadeIO(a, 9.3, A_DUR, 0.25) : 0;
+  setOp('#stamp', stp); $('#stamp').style.transform = `translate(-50%, -50%) rotate(-8deg) scale(${1 + 0.6 * (1 - seg(a, 9.3, 9.6))})`;
+  let bub = 0, btxt = '';
+  if (trying && a > 1.2 && a < 4) { bub = fadeIO(a, 1.2, 4, 0.3); btxt = A.hi; }
+  if (trying && a > VERDICT) { bub = fadeIO(a, VERDICT, A_DUR, 0.3); btxt = A.bubble; }
+  if (mode === 'win' && t > 33.3 && t < 38) { bub = fadeIO(t, 33.3, 38, 0.3); btxt = 'Agora eu sei o que fazer!'; }
+  bubbleEl.style.opacity = bub;
+  if (bub > 0) { bubbleEl.textContent = btxt; const [x, y] = toScreen(worker.g.position.clone().add(V(0, 2.2, 0))); bubbleEl.style.transform = `translate(${x}px, ${y}px)`; }
+  setOp('#tries', mode === 'intro' ? seg(T, 5.5, 6.5) : mode === 'win' ? 1 - seg(t, 84, 85) : mode === 'rewind' ? 0 : 1);
+  if (A) showTries(A.k, (trying && a >= FALL) || mode === 'rewind', false); else showTries(6, false, t > 74);
+  setOp('#alarm', trying ? 0.7 * fadeIO(a, FALL, 10.4, 0.3) * (0.6 + 0.4 * Math.sin(a * 9)) : 0);
+  // rebobinar
+  const rw = mode === 'rewind' ? 1 : 0;
+  setOp('#rewind', rw); $('#rewind .msg').textContent = A && A.k === 5 ? 'Agora vai!' : 'Tentar de novo!';
   $('#rewind .tag').style.opacity = 0.55 + 0.45 * Math.round(0.5 + 0.5 * Math.sin(T * 12));
-  canvas.style.filter = rw > 0 ? `saturate(${1 - 0.7 * rw}) contrast(${1 + 0.2 * rw}) brightness(${1 + 0.08 * rw})` : 'none';
-  canvas.style.transform = rw > 0 ? `translateX(${Math.sin(T * 53) * 4 * rw}px)` : 'none';
-  setOp('#good', mode === 'right' ? fadeIO(T, RW1 + 0.1, RW1 + 3.3, 0.4) : 0);
-  setOp('#endtitle', mode === 'right' ? seg(t, 85.5, 86.5) : 0);
-  setOp('#fade', mode === 'right' ? Math.max(fadeIO(t, 79.9, 81.1, 0.6), seg(T, DURATION - 1, DURATION)) : 0);
+  canvas.style.filter = rw > 0 ? 'saturate(0.3) contrast(1.2) brightness(1.08)' : 'none';
+  canvas.style.transform = rw > 0 ? `translateX(${Math.sin(T * 53) * 4}px)` : 'none';
+  setOp('#good', mode === 'win' ? fadeIO(T, T_S + 0.1, T_S + 3.2, 0.4) : 0);
+  setOp('#endtitle', mode === 'win' ? seg(t, 85.5, 86.5) : 0);
+  setOp('#fade', mode === 'win' ? Math.max(fadeIO(t, 79.9, 81.1, 0.6), seg(T, DURATION - 1, DURATION)) : 0);
   $('#progress').style.width = `${(T / DURATION) * 100}%`;
 
   renderer.render(scene, camera);
