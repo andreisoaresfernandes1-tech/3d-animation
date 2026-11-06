@@ -15,6 +15,16 @@ O roteiro completo, com narração, está em [ROTEIRO.md](ROTEIRO.md).
 | 1:05–1:19 | Tentativa 5: tuneladora com anéis atrasados |
 | 1:19–2:16 | Tentativa 6: tuneladora + anéis logo atrás + argamassa → trem passando |
 
+## Tudo de uma vez ("pronto")
+
+```bash
+./fazer-video.sh              # renderiza 16:9 e 9:16, gera a narração e corta as cenas
+./fazer-video.sh --so-16x9 --sem-tts   # versão rápida
+```
+
+Para um vídeo novo, escreva a ideia em [PROXIMO-VIDEO.md](PROXIMO-VIDEO.md) e diga **"pronto"**
+ao Claude: o passo a passo que ele segue está em [CLAUDE.md](CLAUDE.md).
+
 ## Ver no navegador
 
 ```bash
