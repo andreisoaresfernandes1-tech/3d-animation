@@ -1,6 +1,6 @@
 // POST {email} -> cria uma cobrança Pix de R$ 15 no Mercado Pago e devolve o QR Code.
 const crypto = require("crypto");
-const { PRODUTO, PRECO, mp } = require("./_lib");
+const { PRODUTO, PRECO, mp, baseUrl } = require("./_lib");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ erro: "Use POST" });
@@ -9,16 +9,16 @@ module.exports = async (req, res) => {
     return res.status(400).json({ erro: "Digite um e-mail válido." });
 
   try {
-    const base = "https://" + (req.headers["x-forwarded-host"] || req.headers.host);
     const p = await mp("/v1/payments", {
       method: "POST",
       headers: { "X-Idempotency-Key": crypto.randomUUID() },
       body: JSON.stringify({
         transaction_amount: PRECO,
-        description: "Pacote Túnel 3D (ZIP)",
+        description: "Método ASF (ZIP)",
         payment_method_id: "pix",
         external_reference: PRODUTO,
         payer: { email },
+        notification_url: baseUrl(req) + "/api/webhook",
         date_of_expiration: new Date(Date.now() + 30 * 60 * 1000).toISOString().replace("Z", "-00:00"),
       }),
     });

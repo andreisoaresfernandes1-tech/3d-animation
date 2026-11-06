@@ -3,115 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Túnel 3D — Pacote de Vídeos</title>
-<meta name="description" content="Animação 3D didática: como construir um túnel subterrâneo. Pacote ZIP com vídeos 16:9 e 9:16, narrados e sem narração, e clipes de cada cena. R$ 15 no Pix.">
+<title>Método ASF — vídeos 3D com IA</title>
+<meta name="description" content="Prompts prontos para uma IA de código fazer vídeos curtos animados em 3D. R$ 15 no Pix, entrega automática.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f6f1ea; --card:#fff; --ink:#1d1a16; --muted:#6b6259; --line:#e4dbd0;
-  --accent:#f2b31b; --accent-ink:#1d1a16; --earth:#9a4a26; --ok:#1f8a5b;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#16130f; --card:#211d18; --ink:#f3ede5; --muted:#a99d90; --line:#3a332b;
-    --accent:#f2b31b; --accent-ink:#1d1a16; --earth:#d27a4c; --ok:#3fbf86;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#16130f; --card:#211d18; --ink:#f3ede5; --muted:#a99d90; --line:#3a332b;
-  --accent:#f2b31b; --accent-ink:#1d1a16; --earth:#d27a4c; --ok:#3fbf86;
-}
+:root{--bg:#f7f1e8;--card:#fff;--ink:#1b1916;--muted:#6b6259;--line:#e6dccf;--accent:#ff7a3d;--accent-ink:#fff;--ok:#1f8a5b;--erro:#d64545}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15130f;--card:#201c17;--ink:#f3ede5;--muted:#a99d90;--line:#383128;--ok:#3fbf86;--erro:#ff7070}}
+:root[data-theme="dark"]{--bg:#15130f;--card:#201c17;--ink:#f3ede5;--muted:#a99d90;--line:#383128;--ok:#3fbf86;--erro:#ff7070}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5}
-.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
-header.hero{padding:48px 0 24px}
-.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--earth)}
-h1{font-size:clamp(30px,6vw,52px);line-height:1.05;margin:.3em 0 .3em;font-weight:800}
-.lead{font-size:18px;color:var(--muted);max-width:640px;margin:0}
-.grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;align-items:start;margin:28px 0 48px}
-@media (max-width:820px){.grid{grid-template-columns:1fr}.card{position:static}}
-.media video,.media img{width:100%;display:block;border-radius:12px;border:1px solid var(--line);background:#000}
-.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.thumbs img{aspect-ratio:16/9;object-fit:cover}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;position:sticky;top:16px}
-.price{display:flex;align-items:baseline;gap:8px;margin:0 0 4px}
-.price b{font-size:44px;font-weight:800}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.top{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:start;padding:40px 0 32px}
+@media (max-width:860px){.top{grid-template-columns:1fr}.card{position:static!important}}
+.tag{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(34px,7vw,58px);line-height:1;margin:.25em 0 .35em;font-weight:800}
+h1 span{background:var(--accent);color:var(--accent-ink);padding:0 .18em;border-radius:.18em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 20px;max-width:560px}
+#palco{width:100%;max-width:520px;aspect-ratio:1;border-radius:20px;background:radial-gradient(circle at 50% 40%,#fff6e6,#f0e2cc);border:1px solid var(--line);display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;position:sticky;top:16px}
+.price{display:flex;align-items:baseline;gap:8px;margin:0}
+.price b{font-size:46px;font-weight:800}
 .price span{color:var(--muted)}
-ul.inc{padding:0;margin:16px 0;list-style:none}
-ul.inc li{padding:6px 0 6px 26px;position:relative;border-bottom:1px dashed var(--line)}
+ul.inc{padding:0;margin:14px 0 18px;list-style:none}
+ul.inc li{padding:7px 0 7px 26px;position:relative;border-bottom:1px dashed var(--line)}
 ul.inc li:last-child{border-bottom:0}
 ul.inc li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}
-button,.btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:800;border-radius:10px;padding:14px 18px;width:100%;
-  background:var(--accent);color:var(--accent-ink);font-size:17px;text-align:center;text-decoration:none;display:block}
-button.ghost,.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-size:15px;padding:11px 14px}
-.pix{display:none;margin-top:16px}
-.pix.on{display:block}
-.qr{background:#fff;border-radius:12px;padding:14px;display:flex;justify-content:center;margin:0 0 12px}
-.qr canvas,.qr img{width:220px!important;height:220px!important}
-textarea{width:100%;font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:8px;padding:8px;
-  background:var(--bg);color:var(--ink);resize:none;height:76px;word-break:break-all}
-.steps{counter-reset:s;padding:0;list-style:none;margin:14px 0}
-.steps li{counter-increment:s;padding-left:30px;position:relative;margin:8px 0;font-size:15px}
-.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;
-  background:var(--ink);color:var(--bg);font-size:12px;font-weight:800;display:grid;place-items:center}
-.small{font-size:13px;color:var(--muted)}
-.row{display:flex;gap:8px;margin-top:8px}
-section.info{border-top:1px solid var(--line);padding:32px 0}
-section.info h2{font-size:22px;margin:0 0 12px}
-table{width:100%;border-collapse:collapse;font-size:15px}
-td{padding:8px 0;border-bottom:1px solid var(--line)}
-td:first-child{color:var(--muted);width:110px;font-variant-numeric:tabular-nums}
-footer{padding:24px 0 48px;color:var(--muted);font-size:13px}
-.copied{color:var(--ok);font-weight:600}
+label{font-size:13px;color:var(--muted)}
 input[type=email]{width:100%;font:inherit;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);margin:4px 0 10px}
-.erro{color:#d64545;min-height:1em}
-.ok{color:var(--ok);font-weight:800;font-size:20px;margin:0 0 12px}
+button,.btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:800;border-radius:10px;padding:14px 18px;width:100%;background:var(--accent);color:var(--accent-ink);font-size:17px;text-align:center;text-decoration:none;display:block}
+button:disabled{opacity:.6;cursor:wait}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-size:15px;padding:11px 14px;margin-top:8px}
+.small{font-size:13px;color:var(--muted)}
+.erro{color:var(--erro);min-height:1em;font-size:14px}
+.pix{display:none}.pix.on{display:block}
+.qr{background:#fff;border-radius:12px;padding:12px;display:flex;justify-content:center;margin:0 0 12px}
+.qr img{width:220px;height:220px}
+textarea{width:100%;font:12px ui-monospace,monospace;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink);resize:none;height:72px;word-break:break-all}
 .espera{font-size:14px;display:flex;align-items:center;gap:8px}
 .spin{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:g 1s linear infinite;flex:none}
 @keyframes g{to{transform:rotate(360deg)}}
-#copiar{margin-top:8px}
+.ok{color:var(--ok);font-weight:800;font-size:20px;margin:0 0 12px}
+.copied{color:var(--ok);font-weight:600}
+.seguro{display:flex;gap:8px;align-items:center;margin-top:14px;font-size:13px;color:var(--muted)}
+section.bloco{border-top:1px solid var(--line);padding:36px 0}
+section.bloco h2{font-size:26px;margin:0 0 18px}
+.passos{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;padding:0;margin:0;list-style:none}
+.passos li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.passos b{display:block;color:var(--accent);font-size:13px;letter-spacing:.08em}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.faq summary{font-weight:600;cursor:pointer}
+.faq p{margin:10px 0 0;color:var(--muted)}
+footer{padding:24px 0 48px;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="hero">
-    <span class="tag">Animação 3D didática</span>
-    <h1>Como construir um túnel subterrâneo</h1>
-    <p class="lead">Um personagem erra 5 vezes — e o túnel desaba em cada uma. Na 6ª tentativa ele acerta. Vídeo narrado em português, pronto para aula, YouTube, Reels, Shorts e TikTok.</p>
-  </header>
-
-  <div class="grid">
-    <div class="media">
-      <video src="img/previa.mp4" poster="img/quadro-10.jpg" autoplay muted loop playsinline></video>
-      <div class="thumbs">
-        <img src="img/quadro-44.jpg" alt="Tentativa 3: teto reto de concreto racha com o peso da terra" loading="lazy">
-        <img src="img/quadro-60.jpg" alt="Tentativa 4: arco de tijolos" loading="lazy">
-        <img src="img/quadro-120.jpg" alt="Tentativa 6: túnel pronto com trilhos e ventilação" loading="lazy">
-      </div>
+  <div class="top">
+    <div>
+      <div class="tag">Vídeos 3D com IA</div>
+      <h1>Método <span>ASF</span></h1>
+      <p class="lead">Faça vídeos curtos animados em 3D, com mascote, narração e legenda, só copiando e colando prompts numa IA de código. Sem saber programar e sem programa de edição.</p>
+      <canvas id="palco" aria-label="Asfinho, o robô mascote do método, girando em 3D"></canvas>
     </div>
 
     <aside class="card" id="comprar">
       <p class="price"><b>R$ 15</b><span>pagamento único · Pix</span></p>
-      <p class="small">Arquivo ZIP para baixar</p>
+      <p class="small">Entrega automática: o download libera na hora e o link chega no seu e-mail.</p>
       <ul class="inc">
-        <li>Vídeo completo 16:9 (1280×720) com narração</li>
-        <li>Vídeo vertical 9:16 (1080×1920) com narração</li>
-        <li>As duas versões sem narração</li>
-        <li>7 clipes separados por cena, nos dois formatos</li>
-        <li>Roteiro completo com as falas</li>
+        <li>Site do método com 11 passos e botão “Copiar prompt”</li>
+        <li>Prompt pra IA montar o seu estúdio 3D (Three.js + vídeo MP4)</li>
+        <li>Mascote próprio, biblioteca de ~50 objetos e 15 cenários</li>
+        <li>Fórmula de roteiro que segura a pessoa até o fim</li>
+        <li>Voz grátis, efeitos sonoros, capa e texto de postar</li>
+        <li>Todos os prompts também em arquivo de texto</li>
       </ul>
 
       <form id="form">
-        <label class="small" for="email">Seu e-mail</label>
+        <label for="email">Seu e-mail (o link chega nele)</label>
         <input id="email" type="email" required autocomplete="email" placeholder="voce@exemplo.com">
-        <button id="pagar" type="submit">Pagar R$ 15 com Pix</button>
-        <p class="small erro" id="erro" aria-live="polite"></p>
+        <button id="pagar" type="submit">Comprar por R$ 15 no Pix</button>
+        <p class="erro" id="erro" aria-live="polite"></p>
       </form>
 
       <div class="pix" id="pix">
         <div class="qr"><img id="qr" alt="QR Code Pix"></div>
-        <label class="small" for="copia">Pix copia e cola</label>
+        <label for="copia">Pix copia e cola</label>
         <textarea id="copia" readonly></textarea>
         <button class="ghost" id="copiar" type="button">Copiar código</button>
         <p class="small" id="aviso" aria-live="polite"></p>
@@ -121,31 +98,41 @@ input[type=email]{width:100%;font:inherit;font-size:16px;padding:12px;border:1px
 
       <div class="pix" id="pronto">
         <p class="ok">✓ Pagamento confirmado!</p>
-        <a class="btn" id="baixar" href="#">Baixar o ZIP</a>
-        <p class="small">O link vale por 3 dias. Guarde esta página ou baixe agora.</p>
+        <a class="btn" id="baixar" href="#">Baixar o Método ASF</a>
+        <p class="small">Também mandamos o link pro seu e-mail. Ele vale por 7 dias. Depois de baixar, extraia o ZIP e abra o <b>index.html</b>.</p>
       </div>
+      <p class="seguro">🔒 Pix processado pelo Mercado Pago</p>
     </aside>
   </div>
 
-  <section class="info">
-    <h2>O que tem no vídeo (2:16)</h2>
-    <table>
-      <tr><td>0:00–0:07</td><td>Abertura</td></tr>
-      <tr><td>0:07–0:21</td><td>Tentativa 1: só cavar</td></tr>
-      <tr><td>0:21–0:36</td><td>Tentativa 2: escoras de madeira</td></tr>
-      <tr><td>0:36–0:50</td><td>Tentativa 3: teto reto de concreto</td></tr>
-      <tr><td>0:50–1:05</td><td>Tentativa 4: arco de tijolos (a água infiltra)</td></tr>
-      <tr><td>1:05–1:19</td><td>Tentativa 5: tuneladora com anéis atrasados</td></tr>
-      <tr><td>1:19–2:16</td><td>Tentativa 6: tuneladora + anéis + argamassa → trem passando</td></tr>
-    </table>
+  <section class="bloco">
+    <h2>O que tem dentro</h2>
+    <ol class="passos">
+      <li><b>PASSO 1</b>Montar o estúdio: a IA cria o programa que desenha a cena e gera o MP4 vertical.</li>
+      <li><b>PASSO 2</b>Criar o seu mascote, com andar, apontar, levar susto e comemorar.</li>
+      <li><b>PASSO 3</b>Biblioteca de objetos: casa, prédio, carro, foguete, bichos e muito mais.</li>
+      <li><b>PASSO 4</b>15 cenários prontos: obra, cidade, praia, fundo do mar, Lua, fazenda…</li>
+      <li><b>PASSO 5</b>Roteiro na fórmula ASF: o mascote erra, erra de novo, e aí acerta.</li>
+      <li><b>PASSO 6</b>Cada frase vira uma cena diferente, com regras que evitam vídeo parado.</li>
+      <li><b>PASSO 7</b>Voz grátis ou ElevenLabs, efeitos sonoros e música de fundo.</li>
+      <li><b>PASSOS 8 e 9</b>Render, capa e o texto de postar com título, legenda e hashtags.</li>
+    </ol>
   </section>
 
-  <footer>Pagamento processado pelo Mercado Pago. O download libera automaticamente assim que o Pix é confirmado.</footer>
+  <section class="bloco faq">
+    <h2>Perguntas</h2>
+    <details><summary>Preciso saber programar?</summary><p>Não. Você copia o prompt, cola numa IA de código (Claude Code, Codex, Cursor ou Gemini CLI) e ela cria e roda tudo. Você só aprova o que ela mostra.</p></details>
+    <details><summary>Que computador eu preciso?</summary><p>Windows, Mac ou Linux, com uns 3 GB livres e o Node.js instalado (grátis). A IA instala o resto.</p></details>
+    <details><summary>Como recebo depois de pagar?</summary><p>Assim que o Pix é confirmado, aparece o botão de download nesta página e o link chega no e-mail que você digitou. Se fechar a página, é só abrir de novo neste mesmo aparelho.</p></details>
+    <details><summary>Posso monetizar os vídeos?</summary><p>Sim, os vídeos que você fizer são seus. Só confira a licença da voz que escolher (a ElevenLabs, por exemplo, exige plano pago pra monetizar).</p></details>
+  </section>
+
+  <footer>Método ASF · uso pessoal do comprador.</footer>
 </div>
 
 <script>
 const $ = id => document.getElementById(id);
-const CHAVE = "tunel3d-pagamento";
+const CHAVE = "metodo-asf-pagamento";
 let timer = null;
 
 function salvar(v){ try { localStorage.setItem(CHAVE, JSON.stringify(v)); } catch(e){} }
@@ -200,7 +187,7 @@ $("form").addEventListener("submit", async ev => {
   } catch(e){
     $("erro").textContent = e.message;
   } finally {
-    $("pagar").disabled = false; $("pagar").textContent = "Pagar R$ 15 com Pix";
+    $("pagar").disabled = false; $("pagar").textContent = "Comprar por R$ 15 no Pix";
   }
 });
 
@@ -215,6 +202,73 @@ $("verificar").addEventListener("click", () => { const p = lido(); if (p) verifi
 const anterior = lido();
 if (anterior && anterior.qrBase64) mostrarPix(anterior);
 if (anterior && anterior.pago) verificar(anterior.id);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// Asfinho: o robô mascote, feito só com formas simples
+(function(){
+  if (!window.THREE) return;
+  const cv = document.getElementById("palco");
+  const r = new THREE.WebGLRenderer({canvas: cv, antialias: true, alpha: true});
+  r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+  const cena = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(32, 1, 0.1, 50); cam.position.set(0, 1.6, 5.2); cam.lookAt(0, 0.85, 0);
+  cena.add(new THREE.HemisphereLight(0xfff4e0, 0xc9b79c, 0.9));
+  const sol = new THREE.DirectionalLight(0xffffff, 0.8); sol.position.set(3, 6, 4); sol.castShadow = true;
+  sol.shadow.mapSize.set(1024, 1024); sol.shadow.radius = 6; cena.add(sol);
+  const chao = new THREE.Mesh(new THREE.CircleGeometry(3, 48), new THREE.ShadowMaterial({opacity: .18}));
+  chao.rotation.x = -Math.PI/2; chao.receiveShadow = true; cena.add(chao);
+
+  const M = c => new THREE.MeshStandardMaterial({color: c, roughness: .55});
+  const verde = M(0x2fb7a6), branco = M(0xf4f1ea), laranja = M(0xff7a3d), escuro = M(0x22252b), tela = new THREE.MeshBasicMaterial({color: 0x9ff7e8});
+  function peca(geo, mat, x, y, z, pai){ const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; (pai || robo).add(m); return m; }
+  function caixaRedonda(w, h, d, raio){ // caixa com cantos arredondados, extrudada
+    const s = new THREE.Shape(), x = -w/2, y = -h/2;
+    s.moveTo(x+raio, y); s.lineTo(x+w-raio, y); s.quadraticCurveTo(x+w, y, x+w, y+raio); s.lineTo(x+w, y+h-raio);
+    s.quadraticCurveTo(x+w, y+h, x+w-raio, y+h); s.lineTo(x+raio, y+h); s.quadraticCurveTo(x, y+h, x, y+h-raio);
+    s.lineTo(x, y+raio); s.quadraticCurveTo(x, y, x+raio, y);
+    const g = new THREE.ExtrudeGeometry(s, {depth: d-raio, bevelEnabled: true, bevelSize: raio*.5, bevelThickness: raio*.5, bevelSegments: 4});
+    g.translate(0, 0, -(d-raio)/2); return g;
+  }
+  const robo = new THREE.Group(); cena.add(robo);
+  // roda e corpo
+  peca(new THREE.TorusGeometry(.16, .07, 12, 24), escuro, 0, .23, 0).rotation.y = Math.PI/2;
+  peca(new THREE.CylinderGeometry(.33, .38, .62, 28), verde, 0, .68, 0);
+  peca(new THREE.CylinderGeometry(.2, .2, .03, 24), branco, 0, .72, .35).rotation.x = Math.PI/2;
+  peca(new THREE.SphereGeometry(.05, 16, 12), laranja, 0, .72, .37);
+  // cabeça com tela
+  const cabeca = new THREE.Group(); cabeca.position.y = 1.28; robo.add(cabeca);
+  peca(caixaRedonda(.78, .58, .6, .14), branco, 0, 0, 0, cabeca);
+  peca(caixaRedonda(.6, .4, .05, .08), escuro, 0, 0, .3, cabeca);
+  const olhoE = peca(new THREE.CircleGeometry(.065, 20), tela, -.13, .03, .345, cabeca);
+  const olhoD = peca(new THREE.CircleGeometry(.065, 20), tela, .13, .03, .345, cabeca);
+  const boca = peca(new THREE.PlaneGeometry(.16, .025), tela, 0, -.1, .345, cabeca);
+  peca(new THREE.CylinderGeometry(.018, .018, .3, 8), escuro, 0, .43, 0, cabeca);
+  const bola = peca(new THREE.SphereGeometry(.07, 16, 12), laranja, 0, .6, 0, cabeca);
+  // braços
+  const bracos = [-1, 1].map(lado => {
+    const b = new THREE.Group(); b.position.set(lado*.4, .9, 0); robo.add(b);
+    peca(new THREE.CylinderGeometry(.04, .04, .4, 10), escuro, 0, -.2, 0, b);
+    peca(new THREE.SphereGeometry(.08, 16, 12), laranja, 0, -.42, 0, b);
+    return b;
+  });
+
+  function tamanho(){ const s = cv.clientWidth; r.setSize(s, s, false); }
+  addEventListener("resize", tamanho); tamanho();
+  const t0 = performance.now();
+  (function loop(){
+    const t = (performance.now() - t0) / 1000;
+    robo.rotation.y = Math.sin(t*.6) * .7;
+    robo.position.y = Math.abs(Math.sin(t*2.2)) * .05;
+    cabeca.rotation.z = Math.sin(t*1.3) * .08;
+    bracos[0].rotation.z = -.25 + Math.sin(t*2.2) * .25;
+    bracos[1].rotation.z = .25 + Math.sin(t*2.2 + 1) * .5 + (Math.sin(t*.9) > .6 ? .9 : 0);
+    const pisca = (t % 3.2) < .12 ? .1 : 1; olhoE.scale.y = olhoD.scale.y = pisca;
+    boca.scale.x = 1 + Math.max(0, Math.sin(t*9)) * .4 * (Math.sin(t*.7) > 0 ? 1 : 0);
+    bola.material.emissive = new THREE.Color(0xff7a3d).multiplyScalar((Math.sin(t*4)+1)*.25);
+    r.render(cena, cam); requestAnimationFrame(loop);
+  })();
+})();
 </script>
 </body>
 </html>
