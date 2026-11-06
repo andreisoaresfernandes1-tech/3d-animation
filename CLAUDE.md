@@ -19,8 +19,9 @@ Fale com o usuário em português.
 2. Confira alguns quadros antes do render longo:
    `node render.mjs --still 3,20,60,100 --png /tmp/q.png` (e `--vertical` também) e olhe as imagens.
    Corrija o que estiver cortado, sobreposto ou ilegível.
-3. Rode `./fazer-video.sh` (demora: são ~4 mil quadros por formato). Use `--so-16x9` só se
-   o usuário pedir pressa.
+3. Rode `./fazer-video.sh` **em segundo plano** (Bash com `run_in_background`, timeout máximo):
+   são ~4 mil quadros por formato e cada formato leva mais de 20 min na nuvem. Use `--so-16x9`
+   só se o usuário pedir pressa. Não faça commit de vídeo pela metade.
 4. Envie ao usuário `video/tunel-narrado.mp4` e `video/tunel-vertical-narrado.mp4`
    (ou os nomes novos) e liste os clipes de `video/cenas*/`.
 5. Faça commit (mensagem em português) e push no branch de trabalho.
