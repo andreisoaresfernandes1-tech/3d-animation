@@ -1,0 +1,5 @@
+{
+  "name": "loja-tunel-3d",
+  "private": true,
+  "engines": { "node": ">=18" }
+}

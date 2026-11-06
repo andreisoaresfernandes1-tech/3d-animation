@@ -64,6 +64,13 @@ td{padding:8px 0;border-bottom:1px solid var(--line)}
 td:first-child{color:var(--muted);width:110px;font-variant-numeric:tabular-nums}
 footer{padding:24px 0 48px;color:var(--muted);font-size:13px}
 .copied{color:var(--ok);font-weight:600}
+input[type=email]{width:100%;font:inherit;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);margin:4px 0 10px}
+.erro{color:#d64545;min-height:1em}
+.ok{color:var(--ok);font-weight:800;font-size:20px;margin:0 0 12px}
+.espera{font-size:14px;display:flex;align-items:center;gap:8px}
+.spin{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:g 1s linear infinite;flex:none}
+@keyframes g{to{transform:rotate(360deg)}}
+#copiar{margin-top:8px}
 </style>
 </head>
 <body>
@@ -95,23 +102,27 @@ footer{padding:24px 0 48px;color:var(--muted);font-size:13px}
         <li>Roteiro completo com as falas</li>
       </ul>
 
-      <button id="pagar">Pagar R$ 15 com Pix</button>
+      <form id="form">
+        <label class="small" for="email">Seu e-mail</label>
+        <input id="email" type="email" required autocomplete="email" placeholder="voce@exemplo.com">
+        <button id="pagar" type="submit">Pagar R$ 15 com Pix</button>
+        <p class="small erro" id="erro" aria-live="polite"></p>
+      </form>
 
       <div class="pix" id="pix">
-        <div class="qr" id="qr" aria-label="QR Code Pix"></div>
+        <div class="qr"><img id="qr" alt="QR Code Pix"></div>
         <label class="small" for="copia">Pix copia e cola</label>
         <textarea id="copia" readonly></textarea>
-        <div class="row">
-          <button class="ghost" id="copiar">Copiar código</button>
-          <button class="ghost" id="copiarChave">Copiar chave</button>
-        </div>
+        <button class="ghost" id="copiar" type="button">Copiar código</button>
         <p class="small" id="aviso" aria-live="polite"></p>
-        <ol class="steps">
-          <li>Abra o app do seu banco e pague o QR Code ou o código acima (R$ 15,00).</li>
-          <li>Envie o comprovante pelo botão abaixo.</li>
-          <li>Você recebe o link do ZIP assim que o pagamento for confirmado.</li>
-        </ol>
-        <a class="btn" id="enviar" href="#" target="_blank" rel="noopener">Enviar comprovante</a>
+        <p class="espera"><span class="spin"></span> Aguardando o pagamento… o download libera sozinho aqui.</p>
+        <button class="ghost" id="verificar" type="button">Já paguei</button>
+      </div>
+
+      <div class="pix" id="pronto">
+        <p class="ok">✓ Pagamento confirmado!</p>
+        <a class="btn" id="baixar" href="#">Baixar o ZIP</a>
+        <p class="small">O link vale por 3 dias. Guarde esta página ou baixe agora.</p>
       </div>
     </aside>
   </div>
@@ -129,68 +140,81 @@ footer{padding:24px 0 48px;color:var(--muted);font-size:13px}
     </table>
   </section>
 
-  <footer>Pagamento via Pix direto ao criador. Dúvidas? Use o botão “Enviar comprovante” para falar comigo.</footer>
+  <footer>Pagamento processado pelo Mercado Pago. O download libera automaticamente assim que o Pix é confirmado.</footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-// ===== CONFIGURE AQUI =====
-const CONFIG = {
-  chavePix: "7539f666-aa5e-4111-a450-2b753775a5b9",
-  valor: "15.00",
-  nome: "VENDEDOR",          // seu nome, sem acentos (até 25 letras)
-  cidade: "SAO PAULO",       // sua cidade, sem acentos (até 15 letras)
-  descricao: "Pacote Tunel 3D",
-  // Para onde o comprador manda o comprovante. Preencha UM dos dois:
-  whatsapp: "",              // ex.: "5511999998888" (DDI + DDD + número, só dígitos)
-  email: ""                  // ex.: "voce@exemplo.com"
-};
-// ==========================
-
-function campo(id, v){ return id + String(v.length).padStart(2,"0") + v; }
-function crc16(s){
-  let c = 0xFFFF;
-  for (let i=0;i<s.length;i++){
-    c ^= s.charCodeAt(i) << 8;
-    for (let j=0;j<8;j++) c = (c & 0x8000) ? ((c << 1) ^ 0x1021) & 0xFFFF : (c << 1) & 0xFFFF;
-  }
-  return c.toString(16).toUpperCase().padStart(4,"0");
-}
-function semAcento(s,n){ return s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9 ]/g,"").toUpperCase().slice(0,n); }
-function brCode(c){
-  const conta = campo("00","br.gov.bcb.pix") + campo("01",c.chavePix) + (c.descricao ? campo("02",c.descricao.slice(0,40)) : "");
-  let p = campo("00","01") + campo("26",conta) + campo("52","0000") + campo("53","986") +
-          campo("54",c.valor) + campo("58","BR") + campo("59",semAcento(c.nome,25)) +
-          campo("60",semAcento(c.cidade,15)) + campo("62",campo("05","TUNEL3D")) + "6304";
-  return p + crc16(p);
-}
-
-const codigo = brCode(CONFIG);
 const $ = id => document.getElementById(id);
-$("copia").value = codigo;
+const CHAVE = "tunel3d-pagamento";
+let timer = null;
 
-const msg = "Oi! Paguei R$ 15 no Pix pelo pacote Túnel 3D. Segue o comprovante.";
-if (CONFIG.whatsapp) $("enviar").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
-else if (CONFIG.email) $("enviar").href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent("Comprovante – Túnel 3D") + "&body=" + encodeURIComponent(msg);
-else $("enviar").style.display = "none";
+function salvar(v){ try { localStorage.setItem(CHAVE, JSON.stringify(v)); } catch(e){} }
+function lido(){ try { return JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch(e){ return null; } }
 
-let qrFeito = false;
-$("pagar").addEventListener("click", () => {
-  $("pix").classList.add("on");
-  $("pagar").style.display = "none";
-  if (!qrFeito && window.QRCode){
-    new QRCode($("qr"), { text: codigo, width: 440, height: 440, correctLevel: QRCode.CorrectLevel.M });
-    qrFeito = true;
+function mostrar(qual){
+  $("form").style.display = qual === "form" ? "" : "none";
+  $("pix").classList.toggle("on", qual === "pix");
+  $("pronto").classList.toggle("on", qual === "pronto");
+}
+
+function mostrarPix(p){
+  $("qr").src = "data:image/png;base64," + p.qrBase64;
+  $("copia").value = p.copiaECola;
+  mostrar("pix");
+  clearInterval(timer);
+  timer = setInterval(() => verificar(p.id), 4000);
+}
+
+async function verificar(id, manual){
+  try {
+    const r = await fetch("/api/status?id=" + encodeURIComponent(id));
+    const d = await r.json();
+    if (d.pago){
+      clearInterval(timer);
+      $("baixar").href = d.link;
+      mostrar("pronto");
+      salvar({ id, pago: true });
+    } else if (manual){
+      $("aviso").textContent = "Ainda não chegou. Pode levar alguns segundos depois de pagar.";
+    }
+    if (d.status === "cancelled" || d.status === "rejected" || r.status === 404){
+      clearInterval(timer); salvar(null); mostrar("form");
+      $("erro").textContent = "Esse Pix expirou. Gere um novo.";
+    }
+  } catch(e){ if (manual) $("aviso").textContent = "Sem conexão. Tente de novo."; }
+}
+
+$("form").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  $("erro").textContent = "";
+  $("pagar").disabled = true; $("pagar").textContent = "Gerando Pix…";
+  try {
+    const r = await fetch("/api/criar-pix", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: $("email").value })
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.erro || "Erro ao gerar o Pix.");
+    salvar(d);
+    mostrarPix(d);
+  } catch(e){
+    $("erro").textContent = e.message;
+  } finally {
+    $("pagar").disabled = false; $("pagar").textContent = "Pagar R$ 15 com Pix";
   }
 });
 
-async function copiar(txt, rotulo){
-  try { await navigator.clipboard.writeText(txt); }
+$("copiar").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("copia").value); }
   catch(e){ $("copia").select(); document.execCommand("copy"); }
-  $("aviso").innerHTML = '<span class="copied">' + rotulo + ' copiado!</span> Cole no app do banco em “Pix copia e cola”.';
-}
-$("copiar").addEventListener("click", () => copiar(codigo, "Código"));
-$("copiarChave").addEventListener("click", () => copiar(CONFIG.chavePix, "Chave"));
+  $("aviso").innerHTML = '<span class="copied">Código copiado!</span> Cole no app do banco em “Pix copia e cola”.';
+});
+$("verificar").addEventListener("click", () => { const p = lido(); if (p) verificar(p.id, true); });
+
+// Se a pessoa fechou a página no meio, retoma de onde parou.
+const anterior = lido();
+if (anterior && anterior.qrBase64) mostrarPix(anterior);
+if (anterior && anterior.pago) verificar(anterior.id);
 </script>
 </body>
 </html>
